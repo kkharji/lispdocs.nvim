@@ -94,7 +94,7 @@ do
   do
     local v_0_0 = nil
     local function float0(opts)
-      return display_docs(a.merge({display = "float", fill = 0.80000000000000004, win = {winblend = 0}}, opts))
+      return display_docs(a.merge({display = "float"}, opts))
     end
     v_0_0 = float0
     _0_0["float"] = v_0_0
@@ -124,7 +124,7 @@ do
   do
     local v_0_0 = nil
     local function split0(opts)
-      return display_docs(a.merge({display = "split"}, opts))
+      return display_docs(a.merge({display = "split"}), opts)
     end
     v_0_0 = split0
     _0_0["split"] = v_0_0

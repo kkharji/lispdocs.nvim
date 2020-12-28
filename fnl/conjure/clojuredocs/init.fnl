@@ -20,7 +20,6 @@
 (defn display-docs [opts]
   "Main function of this namespace.
     Accepts a map defining a set configuration options.
-    opts.clinet    :str:     The Client to use.
     opts.symbol    :str:     The symbol to search for.
     opts.display*  :str:     Display type: split, vsplit or float.
     opts.win       :dict:    Float window options.
@@ -38,18 +37,13 @@
 
 (defn float [opts]
   (display-docs
-    (a.merge {:display :float
-              :fill 0.8
-              :win {:winblend 0}}
-             opts)))
+    (a.merge {:display :float} opts)))
 
 (defn vsplit [opts]
   (display-docs
-    (a.merge {:display :vsplit}
-             opts)))
+    (a.merge {:display :vsplit} opts)))
 
 (defn split [opts]
   (display-docs
-    (a.merge {:display :split}
-             opts)))
+    (a.merge {:display :split}) opts))
 

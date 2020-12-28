@@ -76,10 +76,10 @@ do
   _0_0["aniseed/locals"]["draw-border"] = v_0_
   draw_border = v_0_
 end
-local set_buf_opts = nil
+local set_buffer = nil
 do
   local v_0_ = nil
-  local function set_buf_opts0(bufnr, content, opts)
+  local function set_buffer0(bufnr, content, opts)
     local opts0 = a.merge({bufhidden = "wipe", buflisted = false, buftype = "nofile", filetype = "markdown", swapfile = false}, opts)
     for k, v in pairs(opts0) do
       api.buf_set_option(bufnr, k, v)
@@ -87,33 +87,44 @@ do
     api.buf_set_lines(bufnr, 0, 0, true, content)
     return api.win_set_cursor(0, {1, 0})
   end
-  v_0_ = set_buf_opts0
-  _0_0["aniseed/locals"]["set-buf-opts"] = v_0_
-  set_buf_opts = v_0_
+  v_0_ = set_buffer0
+  _0_0["aniseed/locals"]["set-buffer"] = v_0_
+  set_buffer = v_0_
 end
-local set_win_opts = nil
+local set_float = nil
 do
   local v_0_ = nil
-  local function set_win_opts0(opts)
-    local winops = a.merge({conceallevel = 3, winblend = 5, winhl = "NormalFloat:Normal"}, opts.win)
+  local function set_float0(opts)
+    local winops = a.merge({winblend = 5, winhl = "NormalFloat:Normal"}, opts.win)
     local _let_0_ = {opts["primary-winid"], opts["border-winid"]}
     local primary = _let_0_[1]
     local border = _let_0_[2]
+    local cursorline = nil
+    if a["nil?"](winops.cursorline) then
+      cursorline = true
+    else
+      cursorline = false
+    end
     for _, win in ipairs({primary, border}) do
       for k, v in pairs(winops) do
-        api.win_set_option(win, k, v)
+        if (k ~= "cursorline") then
+          api.win_set_option(win, k, v)
+        end
       end
+    end
+    if cursorline then
+      api.win_set_option(primary, "cursorline", true)
     end
     return vim.cmd(str.join(" ", {"au", "WinClosed,WinLeave", string.format("<buffer=%d>", opts.bufnr), ":bd!", "|", "call", string.format("nvim_win_close(%d,", border), "v:true)"}))
   end
-  v_0_ = set_win_opts0
-  _0_0["aniseed/locals"]["set-win-opts"] = v_0_
-  set_win_opts = v_0_
+  v_0_ = set_float0
+  _0_0["aniseed/locals"]["set-float"] = v_0_
+  set_float = v_0_
 end
-local center_opts = nil
+local get_float_opts = nil
 do
   local v_0_ = nil
-  local function center_opts0(opts)
+  local function get_float_opts0(opts)
     local relative = (opts.relative or "editor")
     local style = (opts.style or "minimal")
     local fill = (opts.fill or 0.80000000000000004)
@@ -123,20 +134,20 @@ do
     local col = math.floor(((vim.o.columns - width) / 2))
     return {col = col, height = height, relative = relative, row = row, style = style, width = width}
   end
-  v_0_ = center_opts0
-  _0_0["aniseed/locals"]["center-opts"] = v_0_
-  center_opts = v_0_
+  v_0_ = get_float_opts0
+  _0_0["aniseed/locals"]["get-float-opts"] = v_0_
+  get_float_opts = v_0_
 end
 local open_float = nil
 do
   local v_0_ = nil
   local function open_float0(opts)
     local bufnr = api.create_buf(false, true)
-    local winops = center_opts(opts)
+    local winops = get_float_opts(opts)
     local border_winid = draw_border(winops, opts.border)
     local primary_winid = api.open_win(bufnr, true, winops)
-    set_win_opts({["border-winid"] = border_winid, ["opts.win"] = opts.win, ["primary-winid"] = primary_winid, bufnr = bufnr})
-    return set_buf_opts(bufnr, opts.content, opts.buf)
+    set_float({["border-winid"] = border_winid, ["primary-winid"] = primary_winid, bufnr = bufnr, win = opts.win})
+    return set_buffer(bufnr, opts.content, opts.buf)
   end
   v_0_ = open_float0
   _0_0["aniseed/locals"]["open-float"] = v_0_
@@ -147,7 +158,7 @@ do
   local v_0_ = nil
   local function open_split0(cmd, opts)
     vim.cmd(cmd)
-    return set_buf_opts(0, opts.content, opts.buf)
+    return set_buffer(0, opts.content, opts.buf)
   end
   v_0_ = open_split0
   _0_0["aniseed/locals"]["open-split"] = v_0_

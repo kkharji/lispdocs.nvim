@@ -46,14 +46,20 @@
     (api.win_set_cursor 0 [1 0])))
 
 (defn- set-float [opts]
-  (let [winops (a.merge {:winblend 5 ;; FIXME: doesn't work
-                         :conceallevel 3
+  (let [winops (a.merge {:winblend 5
+                         ; :conceallevel 2 ;; FIXME: break conent
                          :winhl "NormalFloat:Normal"}
                         opts.win)
-        [primary border] [opts.primary-winid opts.border-winid]]
+        [primary border] [opts.primary-winid opts.border-winid]
+        cursorline (if (a.nil? winops.cursorline) true false)]
     (each [_ win (ipairs [primary border])]
       (each [k v (pairs winops)]
-        (api.win_set_option win k v)))
+        (when (not= k "cursorline")
+          (api.win_set_option win k v))))
+
+    (if cursorline ;; make sure the the cursorline is present unless its false.
+      (api.win_set_option primary "cursorline" true))
+
     (->> ["au" "WinClosed,WinLeave"
           (string.format "<buffer=%d>" opts.bufnr) ":bd!" "|" "call"
           (string.format "nvim_win_close(%d," border) "v:true)"]
