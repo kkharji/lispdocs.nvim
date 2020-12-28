@@ -33,7 +33,7 @@
     (api.buf_add_highlight bufnr 0 "ConjureBorder" 1 0 -1)
     winid))
 
-(defn- set-buf-opts [bufnr content opts]
+(defn- set-buffer [bufnr content opts]
   (let [opts (a.merge
                {:filetype :markdown
                 :buflisted false
@@ -45,7 +45,7 @@
     (api.buf_set_lines bufnr 0 0 true content)
     (api.win_set_cursor 0 [1 0])))
 
-(defn- set-win-opts [opts]
+(defn- set-float [opts]
   (let [winops (a.merge {:winblend 5 ;; FIXME: doesn't work
                          :conceallevel 3
                          :winhl "NormalFloat:Normal"}
@@ -60,7 +60,7 @@
         (str.join " ")
         vim.cmd)))
 
-(defn- center-opts [opts]
+(defn- get-float-opts [opts]
   (let [relative (or opts.relative "editor")
         style (or opts.style "minimal")
         fill (or opts.fill 0.8)
@@ -77,15 +77,15 @@
 
 (defn- open-float [opts]
   (let [bufnr  (api.create_buf false true)
-        winops (center-opts opts)
+        winops (get-float-opts opts)
         border-winid (draw-border winops opts.border)
         primary-winid (api.open_win bufnr true winops)]
-    (set-win-opts {: opts.win : primary-winid : border-winid : bufnr})
-    (set-buf-opts bufnr opts.content opts.buf)))
+    (set-float {:win opts.win : primary-winid : border-winid : bufnr})
+    (set-buffer bufnr opts.content opts.buf)))
 
 (defn- open-split [cmd opts]
   (vim.cmd cmd)
-  (set-buf-opts 0 opts.content opts.buf))
+  (set-buffer 0 opts.content opts.buf))
 
 (defn open [opts]
   (when (and opts opts.content)
