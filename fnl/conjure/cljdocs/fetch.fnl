@@ -1,4 +1,4 @@
-(module conjure.clojuredocs.fetch
+(module conjure.cljdocs.fetch
   {require {a conjure.aniseed.core
             str conjure.aniseed.string
             fennel conjure.aniseed.fennel}})
@@ -44,8 +44,8 @@
 
 (defn download [callback]
   "Download doc usage file."
-  (let [msg "Downloading clojuredocs.fnl to $XDG_CACHE_HOME/conjure/clj-docs.fnl ..."
-        err "Couldn't download clojuredocs.fnl, try again or report issue."
+  (let [msg "Downloading cljdocs.fnl to $XDG_CACHE_HOME/conjure/clj-docs.fnl ..."
+        err "Couldn't download cljdocs.fnl, try again or report issue."
         valid #(and (exists? path)
                     (> (. (vim.loop.fs_stat path) :size) 1700))]
 

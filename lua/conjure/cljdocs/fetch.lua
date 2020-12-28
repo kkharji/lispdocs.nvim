@@ -1,6 +1,6 @@
 local _0_0 = nil
 do
-  local name_0_ = "conjure.clojuredocs.fetch"
+  local name_0_ = "conjure.cljdocs.fetch"
   local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
   if ("table" == type(loaded_0_)) then
@@ -32,7 +32,7 @@ local a = _local_0_[1]
 local fennel = _local_0_[2]
 local str = _local_0_[3]
 local _2amodule_2a = _0_0
-local _2amodule_name_2a = "conjure.clojuredocs.fetch"
+local _2amodule_name_2a = "conjure.cljdocs.fetch"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
 local exists_3f = nil
 do
@@ -97,8 +97,8 @@ do
   do
     local v_0_0 = nil
     local function download0(callback)
-      local msg = "Downloading clojuredocs.fnl to $XDG_CACHE_HOME/conjure/clj-docs.fnl ..."
-      local err = "Couldn't download clojuredocs.fnl, try again or report issue."
+      local msg = "Downloading cljdocs.fnl to $XDG_CACHE_HOME/conjure/clj-docs.fnl ..."
+      local err = "Couldn't download cljdocs.fnl, try again or report issue."
       local valid = nil
       local function _2_()
         return (exists_3f(path) and (vim.loop.fs_stat(path).size > 1700))

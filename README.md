@@ -1,4 +1,4 @@
-# conjure-clojuredocs
+# conjure-cljdocs
 
 View community usage examples/notes from within your editor.
 
@@ -13,7 +13,7 @@ Please open an issue if you have better suggestion or implementation.
 ## Installation 
 
 ```vim
-Plug 'tami6/conjure-clojuredocs' " its a filetype plugin so no need to do any extra work.
+Plug 'tami6/conjure-cljdocs' " its a filetype plugin so no need to do any extra work.
 ```
 
 Mappings: 
@@ -24,11 +24,11 @@ Mappings:
 
 Options:
 
-disable default mappings: `let g:conjure_clojuredocs_mappings = 0`
+disable default mappings: `let g:conjure_cljdocs_mappings = 0`
 
 ## API
 
-`conjure.clojuredocs` functions takes a dict defining the following items. Everything is optional, unless you want to use `conjure.clojuredocs.display-docs` directly, then the first one is required.
+`conjure.cljdocs` functions takes a dict defining the following items. Everything is optional, unless you want to use `conjure.cljdocs.display-docs` directly, then the first one is required.
 
 - `opts.display`: which display type to use, "vsplit", "float", "split". o
 - `opts.win`: float options (look at vim.w), most notably `winhl` which the background highlighting and `winblend` for transparency 
@@ -40,8 +40,8 @@ disable default mappings: `let g:conjure_clojuredocs_mappings = 0`
 Examples:
 
 ```vim
-nnoremap <leader><cr> :lua require'conjure.clojuredocs'.float{ fill = 0.5, win = { winblend = 0, :cursorline false }}<cr>
-nnoremap <leader>clojure :lua require'conjure.clojuredocs'.split{ buf = {ft = "clojure"}}<cr> " bad idea
+nnoremap <leader><cr> :lua require'conjure.cljdocs'.float{ fill = 0.5, win = { winblend = 0, :cursorline false }}<cr>
+nnoremap <leader>clojure :lua require'conjure.cljdocs'.split{ buf = {ft = "clojure"}}<cr> " bad idea
 ```
 
 ## Todos
@@ -51,4 +51,4 @@ nnoremap <leader>clojure :lua require'conjure.clojuredocs'.split{ buf = {ft = "c
 - [ ] Return an error msg if a symbol is not found
 - [ ] create a fuzzy finder using telescope.nvim that fetch the content of symbols and enable users to search for them.
 - [ ] support ClojureScript
-- [ ] maintain/update clojuredocs buffer, such as requesting new symbol update the open buffer
+- [ ] maintain/update cljdocs buffer, such as requesting new symbol update the open buffer

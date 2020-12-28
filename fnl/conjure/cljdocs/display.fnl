@@ -1,4 +1,4 @@
-(module conjure.clojuredocs.display
+(module conjure.cljdocs.display
   {require {a conjure.aniseed.core
             str conjure.aniseed.string}})
 (def api

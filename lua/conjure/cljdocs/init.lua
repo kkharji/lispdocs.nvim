@@ -1,6 +1,6 @@
 local _0_0 = nil
 do
-  local name_0_ = "conjure.clojuredocs"
+  local name_0_ = "conjure.cljdocs"
   local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
   if ("table" == type(loaded_0_)) then
@@ -17,11 +17,11 @@ end
 local function _1_(...)
   local ok_3f_0_, val_0_ = nil, nil
   local function _1_()
-    return {require("conjure.aniseed.core"), require("conjure.client"), require("conjure.clojuredocs.display"), require("conjure.eval"), require("conjure.clojuredocs.fetch"), require("conjure.aniseed.nvim"), require("conjure.clojuredocs.parse")}
+    return {require("conjure.aniseed.core"), require("conjure.client"), require("conjure.cljdocs.display"), require("conjure.eval"), require("conjure.cljdocs.fetch"), require("conjure.aniseed.nvim"), require("conjure.cljdocs.parse")}
   end
   ok_3f_0_, val_0_ = pcall(_1_)
   if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", client = "conjure.client", display = "conjure.clojuredocs.display", eval = "conjure.eval", fetch = "conjure.clojuredocs.fetch", nvim = "conjure.aniseed.nvim", parse = "conjure.clojuredocs.parse"}}
+    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", client = "conjure.client", display = "conjure.cljdocs.display", eval = "conjure.eval", fetch = "conjure.cljdocs.fetch", nvim = "conjure.aniseed.nvim", parse = "conjure.cljdocs.parse"}}
     return val_0_
   else
     return print(val_0_)
@@ -36,25 +36,25 @@ local fetch = _local_0_[5]
 local nvim = _local_0_[6]
 local parse = _local_0_[7]
 local _2amodule_2a = _0_0
-local _2amodule_name_2a = "conjure.clojuredocs"
+local _2amodule_name_2a = "conjure.cljdocs"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local clojuredocs = nil
+local cljdocs = nil
 do
   local v_0_ = nil
   do
-    local v_0_0 = (_0_0.clojuredocs or fetch.parse())
-    _0_0["clojuredocs"] = v_0_0
+    local v_0_0 = (_0_0.cljdocs or fetch.parse())
+    _0_0["cljdocs"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["clojuredocs"] = v_0_
-  clojuredocs = v_0_
+  _0_0["aniseed/locals"]["cljdocs"] = v_0_
+  cljdocs = v_0_
 end
 local get_symbol_ns = nil
 do
   local v_0_ = nil
   local function get_symbol_ns0(cb, symbol)
     local function _2_(_241)
-      return cb(clojuredocs[string.gsub(_241, "#'", "")])
+      return cb(cljdocs[string.gsub(_241, "#'", "")])
     end
     return client["with-filetype"]("clojure", eval["eval-str"], {["on-result"] = _2_, ["passive?"] = true, code = string.format("(resolve '%s)", symbol), origin = "clojure"})
   end

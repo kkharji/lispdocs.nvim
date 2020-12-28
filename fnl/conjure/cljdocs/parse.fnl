@@ -1,4 +1,4 @@
-(module conjure.clojuredocs.parse
+(module conjure.cljdocs.parse
   {require {a conjure.aniseed.core
             str conjure.aniseed.string}})
 

@@ -1,13 +1,13 @@
-(module conjure.clojuredocs
+(module conjure.cljdocs
   {require {nvim conjure.aniseed.nvim
             a conjure.aniseed.core
             client conjure.client
             eval conjure.eval
-            parse conjure.clojuredocs.parse
-            display conjure.clojuredocs.display
-            fetch conjure.clojuredocs.fetch}})
+            parse conjure.cljdocs.parse
+            display conjure.cljdocs.display
+            fetch conjure.cljdocs.fetch}})
 
-(defonce clojuredocs (fetch.parse))
+(defonce cljdocs (fetch.parse))
 
 (defn- get-symbol-ns [cb symbol]
   (client.with-filetype
@@ -15,7 +15,7 @@
     {:origin :clojure
      :code (string.format "(resolve '%s)" symbol)
      :passive? true
-     :on-result #(cb (. clojuredocs (string.gsub $1 "#'" "")))}))
+     :on-result #(cb (. cljdocs (string.gsub $1 "#'" "")))}))
 
 (defn display-docs [opts]
   "Main function of this namespace.

@@ -1,6 +1,6 @@
 local _0_0 = nil
 do
-  local name_0_ = "conjure.clojuredocs.display"
+  local name_0_ = "conjure.cljdocs.display"
   local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
   if ("table" == type(loaded_0_)) then
@@ -31,7 +31,7 @@ local _local_0_ = _1_(...)
 local a = _local_0_[1]
 local str = _local_0_[2]
 local _2amodule_2a = _0_0
-local _2amodule_name_2a = "conjure.clojuredocs.display"
+local _2amodule_name_2a = "conjure.cljdocs.display"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
 local api = nil
 do
