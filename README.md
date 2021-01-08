@@ -13,7 +13,7 @@ Please open an issue if you have better suggestion or implementation.
 ## Installation 
 
 ```vim
-Plug 'tami6/conjure-cljdocs' " its a filetype plugin so no need to do any extra work.
+Plug 'tami5/conjure-cljdocs' " its a filetype plugin so no need to do any extra work.
 ```
 
 Mappings: 
@@ -46,7 +46,6 @@ nnoremap <leader>clojure :lua require'conjure.cljdocs'.split{ buf = {ft = "cloju
 
 ## Todos
 
-- [ ] refactor: use conjure.promise (awaiting @Olical review)
 - [ ] enable navigation between symbol docs through `See Also` section.
 - [ ] Return an error msg if a symbol is not found
 - [ ] create a fuzzy finder using telescope.nvim that fetch the content of symbols and enable users to search for them.
