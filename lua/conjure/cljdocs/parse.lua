@@ -17,11 +17,11 @@ end
 local function _1_(...)
   local ok_3f_0_, val_0_ = nil, nil
   local function _1_()
-    return {require("conjure.aniseed.core"), require("conjure.aniseed.string")}
+    return {require("conjure.aniseed.core"), require("conjure.aniseed.string"), require("conjure.cljdocs.util")}
   end
   ok_3f_0_, val_0_ = pcall(_1_)
   if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", str = "conjure.aniseed.string"}}
+    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", str = "conjure.aniseed.string", util = "conjure.cljdocs.util"}}
     return val_0_
   else
     return print(val_0_)
@@ -30,58 +30,141 @@ end
 local _local_0_ = _1_(...)
 local a = _local_0_[1]
 local str = _local_0_[2]
+local util = _local_0_[3]
 local _2amodule_2a = _0_0
 local _2amodule_name_2a = "conjure.cljdocs.parse"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local markdown = nil
+local format_list = nil
+do
+  local v_0_ = nil
+  local function format_list0(title, xs, template)
+    local res = {}
+    local count = 1
+    if (not a["nil?"](xs) or not a["empty?"](xs)) then
+      table.insert(res, title)
+      table.insert(res, "--------------")
+      local function _2_(item)
+        table.insert(res, vim.split(string.format(template, count, str.trim(item)), "\n"))
+        count = (count + 1)
+        return nil
+      end
+      a["run!"](_2_, xs)
+      return vim.tbl_flatten(res)
+    end
+  end
+  v_0_ = format_list0
+  _0_0["aniseed/locals"]["format-list"] = v_0_
+  format_list = v_0_
+end
+local format_signture = nil
+do
+  local v_0_ = nil
+  local function format_signture0(name, arglists)
+    if not a["empty?"](arglists) then
+      local function _2_(_241)
+        return string.format("`(%s %s)`", name, _241)
+      end
+      return {str.join(" ", a.map(_2_, arglists)), " "}
+    end
+  end
+  v_0_ = format_signture0
+  _0_0["aniseed/locals"]["format-signture"] = v_0_
+  format_signture = v_0_
+end
+local format_doc = nil
+do
+  local v_0_ = nil
+  local function format_doc0(xs)
+    if util["not-nil?"](xs) then
+      return a.map(str.trim, vim.split(xs, "\n"))
+    end
+  end
+  v_0_ = format_doc0
+  _0_0["aniseed/locals"]["format-doc"] = v_0_
+  format_doc = v_0_
+end
+local format_header = nil
+do
+  local v_0_ = nil
+  local function format_header0(ns, name)
+    if util["not-nil?"](name) then
+      return {(ns .. "/" .. name), "=============="}
+    end
+  end
+  v_0_ = format_header0
+  _0_0["aniseed/locals"]["format-header"] = v_0_
+  format_header = v_0_
+end
+local format_see_also = nil
+do
+  local v_0_ = nil
+  local function format_see_also0(items)
+    if not a["empty?"](items) then
+      local symbols = nil
+      local function _2_(_241)
+        return string.format("* `%s`", _241)
+      end
+      symbols = a.map(_2_, items)
+      return {"See Also", "--------------", symbols, " "}
+    end
+  end
+  v_0_ = format_see_also0
+  _0_0["aniseed/locals"]["format-see-also"] = v_0_
+  format_see_also = v_0_
+end
+local format_examples = nil
+do
+  local v_0_ = nil
+  local function format_examples0(examples)
+    return format_list("Usage", examples, "### Example %d:\n\n```clojure\n%s\n```\n--------------\n")
+  end
+  v_0_ = format_examples0
+  _0_0["aniseed/locals"]["format-examples"] = v_0_
+  format_examples = v_0_
+end
+local format_notes = nil
+do
+  local v_0_ = nil
+  local function format_notes0(notes)
+    return format_list("Notes", notes, "### Note %d:\n%s\n\n--------------\n")
+  end
+  v_0_ = format_notes0
+  _0_0["aniseed/locals"]["format-notes"] = v_0_
+  format_notes = v_0_
+end
+local clj_symbol = nil
 do
   local v_0_ = nil
   do
     local v_0_0 = nil
-    local function markdown0(kv)
-      local sec = {also = kv["see-alsos"], examples = kv.examples, header = {kv.ns, kv.name}, info = kv.doc, notes = kv.notes, signture = {kv.name, kv.arglists}}
-      local formatlist = nil
-      local function _2_(xs, title, template)
-        local res = {}
-        local count = 1
-        if not a["empty?"](xs) then
-          table.insert(res, title)
-          table.insert(res, "--------------")
-          local function _3_(item)
-            table.insert(res, vim.split(string.format(template, count, str.trim(item)), "\n"))
-            count = (count + 1)
-            return nil
-          end
-          a["run!"](_3_, xs)
-          return vim.tbl_flatten(res)
-        end
+    local function clj_symbol0(kv)
+      if util["not-nil?"](kv) then
+        return vim.tbl_flatten({format_header(kv.ns, kv.name), format_signture(kv.name, kv.arglists), format_doc(kv.doc), format_see_also(kv["see-alsos"]), format_examples(kv.examples), format_notes(kv.notes)})
       end
-      formatlist = _2_
-      local header = {string.format("%s/%s", unpack(sec.header)), "=============="}
-      local signture = nil
-      local function _3_(_241)
-        return string.format("`(%s %s)`", a["get-in"](sec, {"signture", 1}), _241)
-      end
-      signture = {str.join(" ", a.map(_3_, a["get-in"](sec, {"signture", 2}))), " "}
-      local info = {a.map(str.trim, vim.split(sec.info, "\n")), " "}
-      local examples = formatlist(sec.examples, "Usage", "### Example %d:\n\n```clojure\n%s\n```\n--------------\n")
-      local notes = formatlist(sec.notes, "Notes", "### Note %d:\n%s\n\n--------------\n")
-      local see_also = nil
-      if not a["empty?"](sec.also) then
-        local function _4_(_241)
-          return string.format("* `%s`", _241)
-        end
-        see_also = {"See Also", "--------------", a.map(_4_, sec.also), " "}
-      else
-      see_also = nil
-      end
-      return vim.tbl_flatten({header, signture, info, see_also, examples, notes})
     end
-    v_0_0 = markdown0
-    _0_0["markdown"] = v_0_0
+    v_0_0 = clj_symbol0
+    _0_0["clj-symbol"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["markdown"] = v_0_
-  markdown = v_0_
+  _0_0["aniseed/locals"]["clj-symbol"] = v_0_
+  clj_symbol = v_0_
+end
+local parse_for = nil
+do
+  local v_0_ = nil
+  do
+    local v_0_0 = nil
+    local function parse_for0(ext, kv)
+      local _2_0 = ext
+      if (_2_0 == "clj") then
+        return clj_symbol(kv)
+      end
+    end
+    v_0_0 = parse_for0
+    _0_0["parse-for"] = v_0_0
+    v_0_ = v_0_0
+  end
+  _0_0["aniseed/locals"]["parse-for"] = v_0_
+  parse_for = v_0_
 end
 return nil

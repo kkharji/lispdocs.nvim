@@ -3,37 +3,40 @@
             a conjure.aniseed.core
             client conjure.client
             eval conjure.eval
-            parse conjure.cljdocs.parse
-            display conjure.cljdocs.display
-            fetch conjure.cljdocs.fetch}})
+            db conjure.cljdocs.db
+            display conjure.cljdocs.display}})
 
-(defonce cljdocs (fetch.parse))
 
-(defn- get-symbol-ns [cb symbol]
-  (client.with-filetype
-    :clojure eval.eval-str
-    {:origin :clojure
-     :code (string.format "(resolve '%s)" symbol)
-     :passive? true
-     :on-result #(cb (. cljdocs (string.gsub $1 "#'" "")))}))
+(defn- get-origin [ext]
+  (match ext
+    "clj" "clojure"
+    _ (error (.. "lspdocs: " (vim.fn.expand "%:e") " is not supported"))))
+
+(defn- reslove-symbol [cb ext symbol]
+  (client.with-filetype (get-origin ext) eval.eval-str
+                        {:origin (get-origin ext)
+                         :code (string.format "(resolve '%s)" symbol)
+                         :passive? true
+                         :on-result #(cb (db.preview ext (string.gsub $1 "#'" "")))}))
 
 (defn display-docs [opts]
   "Main function of this namespace.
-    Accepts a map defining a set configuration options.
-    opts.symbol    :str:     The symbol to search for.
-    opts.display*  :str:     Display type: split, vsplit or float.
-    opts.win       :dict:    Float window options.
-    opts.fill      :num:     Float window size.
-    opts.border    :list:    Float window Border.
-    opts.buf       :dict:    Buffer specfic options."
-  (let [symbol (or opts.symbol (vim.fn.expand "<cword>"))]
-    (get-symbol-ns
+   Accepts a map defining a set configuration options.
+   opts.symbol    :str:     The symbol to search for.
+   opts.display*  :str:     Display type: split, vsplit or float.
+   opts.win       :dict:    Float window options.
+   opts.fill      :num:     Float window size.
+   opts.border    :list:    Float window Border.
+   opts.buf       :dict:    Buffer specfic options."
+  (let [symbol (or opts.symbol (vim.fn.expand "<cword>"))
+        ext (vim.fn.expand "%:e")]
+    (reslove-symbol
       #(display.open
-         (if (a.nil? $1)
+         (if (a.empty? $1)
            ;; TODO: should also log to conjure buffer
-           (print (string.format "%s not found" symbol))
-           (->> (parse.markdown $1)
-                (a.assoc opts :content)))) symbol)))
+           (print (string.format "lspdocs.nvim: %s not found" symbol))
+           (a.assoc opts :content $1)))
+      ext symbol)))
 
 (defn float [opts]
   (display-docs

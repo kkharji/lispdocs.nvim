@@ -1,12 +1,6 @@
 (module conjure.cljdocs.display
   {require {a conjure.aniseed.core
             str conjure.aniseed.string}})
-(def api
-  (setmetatable
-    {}
-    {:__index
-     (fn [_ k]
-       (. vim.api (.. "nvim_" k)))}))
 
 (defn- draw-border [opts style]
   (let [style (or style ["─" "│" "╭" "╮" "╰" "╯"])
@@ -27,10 +21,10 @@
                               :height (+ opts.height 2)
                               :col (- opts.col 2)
                               :width (+ opts.width 4)})
-        bufnr (api.create_buf false true)
-        winid (api.open_win bufnr true winops)]
-    (api.buf_set_lines bufnr 0 -1 false lines)
-    (api.buf_add_highlight bufnr 0 "ConjureBorder" 1 0 -1)
+        bufnr (vim.api.nvim_create_buf false true)
+        winid (vim.api.nvim_open_win bufnr true winops)]
+    (vim.api.nvim_buf_set_lines bufnr 0 -1 false lines)
+    (vim.api.nvim_buf_add_highlight bufnr 0 "ConjureBorder" 1 0 -1)
     winid))
 
 (defn- set-buffer [bufnr content opts]
@@ -41,9 +35,9 @@
                 :bufhidden :wipe
                 :swapfile false} opts)]
     (each [k v (pairs opts)]
-      (api.buf_set_option bufnr k v))
-    (api.buf_set_lines bufnr 0 0 true content)
-    (api.win_set_cursor 0 [1 0])))
+      (vim.api.nvim_buf_set_option bufnr k v))
+    (vim.api.nvim_buf_set_lines bufnr 0 0 true content)
+    (vim.api.nvim_win_set_cursor 0 [1 0])))
 
 (defn- set-float [opts]
   (let [winops (a.merge {:winblend 5
@@ -55,10 +49,10 @@
     (each [_ win (ipairs [primary border])]
       (each [k v (pairs winops)]
         (when (not= k "cursorline")
-          (api.win_set_option win k v))))
+          (vim.api.nvim_win_set_option win k v))))
 
     (if cursorline ;; make sure the the cursorline is present unless its false.
-      (api.win_set_option primary "cursorline" true))
+      (vim.api.nvim_win_set_option primary "cursorline" true))
 
     (->> ["au" "WinClosed,WinLeave"
           (string.format "<buffer=%d>" opts.bufnr) ":bd!" "|" "call"
@@ -82,10 +76,10 @@
      : col}))
 
 (defn- open-float [opts]
-  (let [bufnr  (api.create_buf false true)
+  (let [bufnr  (vim.api.nvim_create_buf false true)
         winops (get-float-opts opts)
         border-winid (draw-border winops opts.border)
-        primary-winid (api.open_win bufnr true winops)]
+        primary-winid (vim.api.nvim_open_win bufnr true winops)]
     (set-float {:win opts.win : primary-winid : border-winid : bufnr})
     (set-buffer bufnr opts.content opts.buf)))
 

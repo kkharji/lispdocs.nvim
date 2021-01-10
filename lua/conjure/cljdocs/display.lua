@@ -33,21 +33,6 @@ local str = _local_0_[2]
 local _2amodule_2a = _0_0
 local _2amodule_name_2a = "conjure.cljdocs.display"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local api = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function _2_(_, k)
-      return vim.api[("nvim_" .. k)]
-    end
-    v_0_0 = setmetatable({}, {__index = _2_})
-    _0_0["api"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["api"] = v_0_
-  api = v_0_
-end
 local draw_border = nil
 do
   local v_0_ = nil
@@ -66,10 +51,10 @@ do
       lines = lines0
     end
     local winops = a.merge(opts, {col = (opts.col - 2), height = (opts.height + 2), row = (opts.row - 1), width = (opts.width + 4)})
-    local bufnr = api.create_buf(false, true)
-    local winid = api.open_win(bufnr, true, winops)
-    api.buf_set_lines(bufnr, 0, -1, false, lines)
-    api.buf_add_highlight(bufnr, 0, "ConjureBorder", 1, 0, -1)
+    local bufnr = vim.api.nvim_create_buf(false, true)
+    local winid = vim.api.nvim_open_win(bufnr, true, winops)
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+    vim.api.nvim_buf_add_highlight(bufnr, 0, "ConjureBorder", 1, 0, -1)
     return winid
   end
   v_0_ = draw_border0
@@ -82,10 +67,10 @@ do
   local function set_buffer0(bufnr, content, opts)
     local opts0 = a.merge({bufhidden = "wipe", buflisted = false, buftype = "nofile", filetype = "markdown", swapfile = false}, opts)
     for k, v in pairs(opts0) do
-      api.buf_set_option(bufnr, k, v)
+      vim.api.nvim_buf_set_option(bufnr, k, v)
     end
-    api.buf_set_lines(bufnr, 0, 0, true, content)
-    return api.win_set_cursor(0, {1, 0})
+    vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, content)
+    return vim.api.nvim_win_set_cursor(0, {1, 0})
   end
   v_0_ = set_buffer0
   _0_0["aniseed/locals"]["set-buffer"] = v_0_
@@ -108,12 +93,12 @@ do
     for _, win in ipairs({primary, border}) do
       for k, v in pairs(winops) do
         if (k ~= "cursorline") then
-          api.win_set_option(win, k, v)
+          vim.api.nvim_win_set_option(win, k, v)
         end
       end
     end
     if cursorline then
-      api.win_set_option(primary, "cursorline", true)
+      vim.api.nvim_win_set_option(primary, "cursorline", true)
     end
     return vim.cmd(str.join(" ", {"au", "WinClosed,WinLeave", string.format("<buffer=%d>", opts.bufnr), ":bd!", "|", "call", string.format("nvim_win_close(%d,", border), "v:true)"}))
   end
@@ -142,10 +127,10 @@ local open_float = nil
 do
   local v_0_ = nil
   local function open_float0(opts)
-    local bufnr = api.create_buf(false, true)
+    local bufnr = vim.api.nvim_create_buf(false, true)
     local winops = get_float_opts(opts)
     local border_winid = draw_border(winops, opts.border)
-    local primary_winid = api.open_win(bufnr, true, winops)
+    local primary_winid = vim.api.nvim_open_win(bufnr, true, winops)
     set_float({["border-winid"] = border_winid, ["primary-winid"] = primary_winid, bufnr = bufnr, win = opts.win})
     return set_buffer(bufnr, opts.content, opts.buf)
   end

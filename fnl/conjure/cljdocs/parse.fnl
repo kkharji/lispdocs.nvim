@@ -1,44 +1,62 @@
 (module conjure.cljdocs.parse
   {require {a conjure.aniseed.core
-            str conjure.aniseed.string}})
+            str conjure.aniseed.string
+            util conjure.cljdocs.util}})
 
-(defn markdown [kv]
+(defn- format-list [title xs template] ;; TODO: Refactor
+  (var res [])
+  (var count 1)
+  (when (or (not (a.nil? xs)) (not (a.empty? xs)))
+    (table.insert res title)
+    (table.insert res "--------------")
+    (a.run! (fn [item]
+              (->> (-> template
+                       (string.format count (str.trim item))
+                       (vim.split "\n"))
+                   (table.insert res))
+              (set count (+ count 1))) xs)
+    (vim.tbl_flatten res)))
+
+(defn- format-signture [name arglists]
+  (when (not (a.empty? arglists))
+    [(->> arglists
+          (a.map #(string.format "`(%s %s)`" name $1))
+          (str.join " ")) " "]))
+
+(defn- format-doc [xs]
+  (when (util.not-nil? xs)
+    (a.map str.trim (vim.split xs "\n"))))
+
+(defn- format-header [ns name]
+  (when (and (util.not-nil? name))
+    [(.. ns "/" name) "=============="]))
+
+(defn- format-see-also [items]
+  (when (not (a.empty? items))
+    (let [symbols (a.map #(string.format "* `%s`" $1) items)]
+      ["See Also" "--------------" symbols " "])))
+
+(defn- format-examples [examples]
+  (format-list
+    "Usage" examples
+    "### Example %d:\n\n```clojure\n%s\n```\n--------------\n"))
+
+(defn- format-notes [notes]
+  (format-list
+    "Notes" notes
+    "### Note %d:\n%s\n\n--------------\n"))
+
+(defn clj-symbol [kv]
   "Parses a symbol's dict to markdown section and content."
-  (let [sec {:notes kv.notes
-             :examples kv.examples
-             :info kv.doc
-             :also kv.see-alsos
-             :signture [kv.name kv.arglists]
-             :header [kv.ns kv.name]}
-        formatlist (fn [xs title template] ;; TODO: Refactor
-                     (var res [])
-                     (var count 1)
-                     (when (not (a.empty? xs))
-                       (table.insert res title)
-                       (table.insert res "--------------")
-                       (a.run! (fn [item]
-                                 (->> (-> template
-                                          (string.format count (str.trim item))
-                                          (vim.split "\n"))
-                                      (table.insert res))
-                                 (set count (+ count 1))) xs)
-                       (vim.tbl_flatten res)))
-        header [(string.format "%s/%s" (unpack sec.header))
-                "=============="]
-        signture [(->> (a.get-in sec [:signture 2])
-                       (a.map #(string.format
-                                 "`(%s %s)`"
-                                 (a.get-in sec [:signture 1]) $1))
-                       (str.join " ")) " "]
-        info [(a.map str.trim (vim.split sec.info "\n")) " "]
-        examples (formatlist
-                   sec.examples "Usage"
-                   "### Example %d:\n\n```clojure\n%s\n```\n--------------\n")
-        notes (formatlist
-                sec.notes "Notes"
-                "### Note %d:\n%s\n\n--------------\n")
-        see-also (when (not (a.empty? sec.also))
-                   ["See Also" "--------------"
-                    (a.map #(string.format "* `%s`" $1) sec.also) " "])]
-    (vim.tbl_flatten [header signture info see-also examples notes])))
+  (when (util.not-nil? kv)
+    (vim.tbl_flatten
+      [(format-header kv.ns kv.name)
+       (format-signture kv.name kv.arglists)
+       (format-doc kv.doc)
+       (format-see-also kv.see-alsos)
+       (format-examples kv.examples)
+       (format-notes kv.notes)])))
 
+(defn parse-for [ext kv]
+  (match ext
+    "clj" (clj-symbol kv)))
