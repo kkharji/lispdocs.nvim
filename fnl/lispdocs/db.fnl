@@ -1,14 +1,16 @@
-(module conjure.cljdocs.db
+(module lispdocs.db
   {require {a :conjure.aniseed.core
             str :conjure.aniseed.string
-            util :conjure.cljdocs.util
-            raw :conjure.cljdocs.raw
+            util :lispdocs.util
+            raw :lispdocs.raw
             sql :sql}})
 
 
-(def- dbpath (.. (util.cache-dir) "/usage_docs.db"))
+(def- dbpath
+  (.. (util.cache-dir) "/usage_docs.db"))
 
-(def- db (sql.new dbpath))
+(def- db
+  (sql.new dbpath))
 
 (def- schemas
   {"clj" {:id ["integer" "primary" "key"]

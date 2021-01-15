@@ -1,6 +1,6 @@
 local _0_0 = nil
 do
-  local name_0_ = "conjure.cljdocs.parse"
+  local name_0_ = "lispdocs.parse"
   local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
   if ("table" == type(loaded_0_)) then
@@ -17,11 +17,11 @@ end
 local function _1_(...)
   local ok_3f_0_, val_0_ = nil, nil
   local function _1_()
-    return {require("conjure.aniseed.core"), require("conjure.aniseed.string"), require("conjure.cljdocs.util")}
+    return {require("conjure.aniseed.core"), require("conjure.aniseed.string"), require("lispdocs.util")}
   end
   ok_3f_0_, val_0_ = pcall(_1_)
   if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", str = "conjure.aniseed.string", util = "conjure.cljdocs.util"}}
+    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", str = "conjure.aniseed.string", util = "lispdocs.util"}}
     return val_0_
   else
     return print(val_0_)
@@ -32,7 +32,7 @@ local a = _local_0_[1]
 local str = _local_0_[2]
 local util = _local_0_[3]
 local _2amodule_2a = _0_0
-local _2amodule_name_2a = "conjure.cljdocs.parse"
+local _2amodule_name_2a = "lispdocs.parse"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
 local format_list = nil
 do

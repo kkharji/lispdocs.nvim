@@ -1,6 +1,6 @@
 local _0_0 = nil
 do
-  local name_0_ = "conjure.cljdocs.raw"
+  local name_0_ = "lispdocs.raw"
   local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
   if ("table" == type(loaded_0_)) then
@@ -17,11 +17,11 @@ end
 local function _1_(...)
   local ok_3f_0_, val_0_ = nil, nil
   local function _1_()
-    return {require("conjure.aniseed.core"), require("conjure.cljdocs.parse"), require("conjure.aniseed.string"), require("conjure.cljdocs.util")}
+    return {require("conjure.aniseed.core"), require("lispdocs.fetch"), require("lispdocs.parse"), require("conjure.aniseed.string"), require("lispdocs.util")}
   end
   ok_3f_0_, val_0_ = pcall(_1_)
   if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", parse = "conjure.cljdocs.parse", str = "conjure.aniseed.string", util = "conjure.cljdocs.util"}}
+    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", fetch = "lispdocs.fetch", parse = "lispdocs.parse", str = "conjure.aniseed.string", util = "lispdocs.util"}}
     return val_0_
   else
     return print(val_0_)
@@ -29,68 +29,13 @@ local function _1_(...)
 end
 local _local_0_ = _1_(...)
 local a = _local_0_[1]
-local parse = _local_0_[2]
-local str = _local_0_[3]
-local util = _local_0_[4]
+local fetch = _local_0_[2]
+local parse = _local_0_[3]
+local str = _local_0_[4]
+local util = _local_0_[5]
 local _2amodule_2a = _0_0
-local _2amodule_name_2a = "conjure.cljdocs.raw"
+local _2amodule_name_2a = "lispdocs.raw"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local url = nil
-do
-  local v_0_ = nil
-  local function url0(ext)
-    local _2_0 = ext
-    if (_2_0 == "clj") then
-      return "https://clojuredocs.org/clojuredocs-export.json"
-    end
-  end
-  v_0_ = url0
-  _0_0["aniseed/locals"]["url"] = v_0_
-  url = v_0_
-end
-local tmp_file = nil
-do
-  local v_0_ = nil
-  local function tmp_file0(ext)
-    local _2_0 = ext
-    if (_2_0 == "clj") then
-      return "/tmp/cljex.json"
-    end
-  end
-  v_0_ = tmp_file0
-  _0_0["aniseed/locals"]["tmp-file"] = v_0_
-  tmp_file = v_0_
-end
-local dl_msg = nil
-do
-  local v_0_ = nil
-  local function dl_msg0(ext)
-    return str.join(" ", {"Caching Docs and Usage Examples for", ext, "....."})
-  end
-  v_0_ = dl_msg0
-  _0_0["aniseed/locals"]["dl-msg"] = v_0_
-  dl_msg = v_0_
-end
-local dl_err = nil
-do
-  local v_0_ = nil
-  local function dl_err0(ext)
-    return str.join(" ", {"Docs and Usage Examples for", ext, "Couldn't downloaded for processing,", "try again or report issue."})
-  end
-  v_0_ = dl_err0
-  _0_0["aniseed/locals"]["dl-err"] = v_0_
-  dl_err = v_0_
-end
-local dl_succ = nil
-do
-  local v_0_ = nil
-  local function dl_succ0(ext)
-    return str.join(" ", {"Docs and usage examples for", ext, "has been downloaded and about to get cached"})
-  end
-  v_0_ = dl_succ0
-  _0_0["aniseed/locals"]["dl-succ"] = v_0_
-  dl_succ = v_0_
-end
 local fix_datatypes = nil
 do
   local v_0_ = nil
@@ -131,69 +76,6 @@ do
   v_0_ = fix_datatypes0
   _0_0["aniseed/locals"]["fix-datatypes"] = v_0_
   fix_datatypes = v_0_
-end
-local tmp_file_exists_3f = nil
-do
-  local v_0_ = nil
-  local function tmp_file_exists_3f0(ext)
-    local path = tmp_file(ext)
-    return (util["exists?"](path) and (vim.loop.fs_stat(path).size > 1700))
-  end
-  v_0_ = tmp_file_exists_3f0
-  _0_0["aniseed/locals"]["tmp-file-exists?"] = v_0_
-  tmp_file_exists_3f = v_0_
-end
-local download_raw_data = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function download_raw_data0(ext)
-      local downloaded = nil
-      if not tmp_file_exists_3f(ext) then
-        local function _2_()
-          if tmp_file_exists_3f(ext) then
-            downloaded = true
-            return nil
-          else
-            downloaded = false
-            return nil
-          end
-        end
-        vim.fn.jobstart({"curl", "-L", url(ext), "-o", tmp_file(ext)}, {on_exit = _2_})
-        local function _3_()
-          return ((downloaded == true) or (downloaded == false))
-        end
-        vim.wait(100000, _3_)
-      end
-      assert(downloaded, dl_err(ext))
-      return print(dl_succ(ext))
-    end
-    v_0_0 = download_raw_data0
-    _0_0["download-raw-data"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["download-raw-data"] = v_0_
-  download_raw_data = v_0_
-end
-local get_raw_json_data = nil
-do
-  local v_0_ = nil
-  local function get_raw_json_data0(ext)
-    local path = tmp_file(ext)
-    local valid = tmp_file_exists_3f(ext)
-    if not valid then
-      print(dl_msg(ext))
-      download_raw_data(path)
-    end
-    local file = io.open(path)
-    local json = file:read("*all")
-    file:close()
-    return vim.fn.json_decode(json)
-  end
-  v_0_ = get_raw_json_data0
-  _0_0["aniseed/locals"]["get-raw-json-data"] = v_0_
-  get_raw_json_data = v_0_
 end
 local see_also_item = nil
 do
@@ -316,7 +198,7 @@ local get_clj = nil
 do
   local v_0_ = nil
   local function get_clj0()
-    return a.map(format_clj_entry, a.map(compact_clj_item, get_raw_json_data("clj").vars))
+    return a.map(format_clj_entry, a.map(compact_clj_item, fetch.data("clj").vars))
   end
   v_0_ = get_clj0
   _0_0["aniseed/locals"]["get-clj"] = v_0_

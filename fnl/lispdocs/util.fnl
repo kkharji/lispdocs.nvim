@@ -1,4 +1,4 @@
-(module conjure.cljdocs.util
+(module lispdocs.util
   {require {a conjure.aniseed.core
             str conjure.aniseed.string}})
 

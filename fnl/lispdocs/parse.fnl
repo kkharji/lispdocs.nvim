@@ -1,7 +1,7 @@
-(module conjure.cljdocs.parse
+(module lispdocs.parse
   {require {a conjure.aniseed.core
             str conjure.aniseed.string
-            util conjure.cljdocs.util}})
+            util lispdocs.util}})
 
 (defn- format-list [title xs template] ;; TODO: Refactor
   (var res [])

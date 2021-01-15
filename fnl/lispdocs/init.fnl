@@ -1,10 +1,10 @@
-(module conjure.cljdocs
+(module lispdocs
   {require {nvim conjure.aniseed.nvim
             a conjure.aniseed.core
             client conjure.client
             eval conjure.eval
-            db conjure.cljdocs.db
-            display conjure.cljdocs.display}})
+            db lispdocs.db
+            display lispdocs.display}})
 
 
 (defn- get-origin [ext]

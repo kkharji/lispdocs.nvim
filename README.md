@@ -10,7 +10,7 @@ View community usage examples/notes from within your editor.
 ```vim
 Plug 'olical/conjure'
 Plug 'tami5/sql.nvim'
-Plug 'tami5/conjure-cljdocs' " its a filetype plugin so no need to do any extra work.
+Plug 'tami5/conjure-lispdocs' " its a filetype plugin so no need to do any extra work.
 ```
 
 Mappings: 
@@ -21,11 +21,11 @@ Mappings:
 
 Options:
 
-disable default mappings: `let g:conjure_cljdocs_mappings = 0`
+disable default mappings: `let g:conjure_lispdocs_mappings = 0`
 
 ## API
 
-`conjure.cljdocs` functions takes a dict defining the following items. Everything is optional, unless you want to use `conjure.cljdocs.display-docs` directly, then the first one is required.
+`conjure.lispdocs` functions takes a dict defining the following items. Everything is optional, unless you want to use `conjure.lispdocs.display-docs` directly, then the first one is required.
 
 - `opts.display`: which display type to use, "vsplit", "float", "split". o
 - `opts.win`: float options (look at vim.w), most notably `winhl` which the background highlighting and `winblend` for transparency 
@@ -37,8 +37,8 @@ disable default mappings: `let g:conjure_cljdocs_mappings = 0`
 Examples:
 
 ```vim
-nnoremap <leader><cr> :lua require'conjure.cljdocs'.float{ fill = 0.5, win = { winblend = 0, :cursorline false }}<cr>
-nnoremap <leader>clojure :lua require'conjure.cljdocs'.split{ buf = {ft = "clojure"}}<cr> " bad idea
+nnoremap <leader><cr> :lua require'conjure.lispdocs'.float{ fill = 0.5, win = { winblend = 0, :cursorline false }}<cr>
+nnoremap <leader>clojure :lua require'conjure.lispdocs'.split{ buf = {ft = "clojure"}}<cr> " bad idea
 ```
 
 ## Someday

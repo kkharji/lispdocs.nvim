@@ -6,7 +6,7 @@ deps:
 	scripts/dep.sh Olical aniseed origin/master
 
 compile:
-	rm -rf lua/conjure/cljdocs
+	rm -rf lua/lispdocs
 	deps/aniseed/scripts/compile.sh
 
 	# Remove this if you only want Aniseed at compile time.

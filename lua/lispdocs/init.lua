@@ -1,6 +1,6 @@
 local _0_0 = nil
 do
-  local name_0_ = "conjure.cljdocs"
+  local name_0_ = "lispdocs"
   local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
   if ("table" == type(loaded_0_)) then
@@ -17,11 +17,11 @@ end
 local function _1_(...)
   local ok_3f_0_, val_0_ = nil, nil
   local function _1_()
-    return {require("conjure.aniseed.core"), require("conjure.client"), require("conjure.cljdocs.db"), require("conjure.cljdocs.display"), require("conjure.eval"), require("conjure.aniseed.nvim")}
+    return {require("conjure.aniseed.core"), require("conjure.client"), require("lispdocs.db"), require("lispdocs.display"), require("conjure.eval"), require("conjure.aniseed.nvim")}
   end
   ok_3f_0_, val_0_ = pcall(_1_)
   if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", client = "conjure.client", db = "conjure.cljdocs.db", display = "conjure.cljdocs.display", eval = "conjure.eval", nvim = "conjure.aniseed.nvim"}}
+    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", client = "conjure.client", db = "lispdocs.db", display = "lispdocs.display", eval = "conjure.eval", nvim = "conjure.aniseed.nvim"}}
     return val_0_
   else
     return print(val_0_)
@@ -35,7 +35,7 @@ local display = _local_0_[4]
 local eval = _local_0_[5]
 local nvim = _local_0_[6]
 local _2amodule_2a = _0_0
-local _2amodule_name_2a = "conjure.cljdocs"
+local _2amodule_name_2a = "lispdocs"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
 local get_origin = nil
 do
