@@ -1,4 +1,4 @@
-# lspdocs.nvim
+# lispdocs.nvim
 
 View community usage examples/notes from within your editor.
 
@@ -25,7 +25,7 @@ disable default mappings: `let g:conjure_lispdocs_mappings = 0`
 
 ## API
 
-`conjure.lispdocs` functions takes a dict defining the following items. Everything is optional, unless you want to use `conjure.lispdocs.display-docs` directly, then the first one is required.
+`lispdocs` functions takes a dict defining the following.
 
 - `opts.display`: which display type to use, "vsplit", "float", "split". o
 - `opts.win`: float options (look at vim.w), most notably `winhl` which the background highlighting and `winblend` for transparency 
@@ -37,8 +37,8 @@ disable default mappings: `let g:conjure_lispdocs_mappings = 0`
 Examples:
 
 ```vim
-nnoremap <leader><cr> :lua require'conjure.lispdocs'.float{ fill = 0.5, win = { winblend = 0, :cursorline false }}<cr>
-nnoremap <leader>clojure :lua require'conjure.lispdocs'.split{ buf = {ft = "clojure"}}<cr> " bad idea
+nnoremap <leader><cr> :lua require'lispdocs'.float{ fill = 0.5, win = { winblend = 0, :cursorline false }}<cr>
+nnoremap <leader>clojure :lua require'lispdocs'.split{ buf = {ft = "clojure"}}<cr> " bad idea
 ```
 
 ## Someday
