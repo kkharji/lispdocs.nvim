@@ -41,7 +41,9 @@
     _ (error (string.format "lspdocs.nvim: File extension: %s is not supported." ext))))
 
 (defn- query* [ext symbol preview]
-  (let [res (-> (db:select ext {:where {:symbol symbol}}) (. 1))]
+  (let [res (if (a.string? symbol)
+              (-> (db:select ext {:where {:symbol symbol}}) (. 1))
+              (db:select ext {:select ["ns" "name" "type"]}))]
     (if preview
       (-?> res
            (. :preview)
@@ -54,6 +56,9 @@
        (if (not exists)
          (seed ext #(query* ext symbol preview))
          (query* ext symbol preview)))))
+
+(defn all [ext]
+  (query ext true))
 
 (defn preview [ext symbol]
   (query ext symbol true))

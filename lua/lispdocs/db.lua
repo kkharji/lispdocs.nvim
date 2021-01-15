@@ -92,18 +92,23 @@ local query_2a = nil
 do
   local v_0_ = nil
   local function query_2a0(ext, symbol, preview)
-    local res = (db:select(ext, {where = {symbol = symbol}}))[1]
+    local res = nil
+    if a["string?"](symbol) then
+      res = (db:select(ext, {where = {symbol = symbol}}))[1]
+    else
+      res = db:select(ext, {select = {"ns", "name", "type"}})
+    end
     if preview then
-      local _2_0 = res
-      if _2_0 then
-        local _3_0 = _2_0.preview
-        if _3_0 then
-          return vim.split(_3_0, "||00||")
+      local _3_0 = res
+      if _3_0 then
+        local _4_0 = _3_0.preview
+        if _4_0 then
+          return vim.split(_4_0, "||00||")
         else
-          return _3_0
+          return _4_0
         end
       else
-        return _2_0
+        return _3_0
       end
     else
       return res
@@ -138,6 +143,21 @@ do
   end
   _0_0["aniseed/locals"]["query"] = v_0_
   query = v_0_
+end
+local all = nil
+do
+  local v_0_ = nil
+  do
+    local v_0_0 = nil
+    local function all0(ext)
+      return query(ext, true)
+    end
+    v_0_0 = all0
+    _0_0["all"] = v_0_0
+    v_0_ = v_0_0
+  end
+  _0_0["aniseed/locals"]["all"] = v_0_
+  all = v_0_
 end
 local preview = nil
 do
