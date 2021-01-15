@@ -43,7 +43,7 @@ do
     local list_string = nil
     local function _2_(v0)
       if ("table" == type(v0)) then
-        return str.join("||00|| ", v0)
+        return str.join("||00||", v0)
       else
         return v0
       end

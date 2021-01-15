@@ -25,7 +25,7 @@
 
 (defn- format-doc [xs]
   (when (util.not-nil? xs)
-    (a.map str.trim (vim.split xs "\n"))))
+    [(a.map str.trim (vim.split xs "\n")) ""]))
 
 (defn- format-header [ns name]
   (when (and (util.not-nil? name))

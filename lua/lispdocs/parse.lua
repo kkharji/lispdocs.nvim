@@ -76,7 +76,7 @@ do
   local v_0_ = nil
   local function format_doc0(xs)
     if util["not-nil?"](xs) then
-      return a.map(str.trim, vim.split(xs, "\n"))
+      return {a.map(str.trim, vim.split(xs, "\n")), ""}
     end
   end
   v_0_ = format_doc0

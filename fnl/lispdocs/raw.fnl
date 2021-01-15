@@ -6,7 +6,7 @@
             parse lispdocs.parse}})
 
 (defn- fix-datatypes [v]
-  (let [list-string (fn [v] (if (= "table" (type v)) (str.join "||00|| " v) v))
+  (let [list-string (fn [v] (if (= "table" (type v)) (str.join "||00||" v) v))
         boolean-int (fn [v] (if (= "boolean" (type v)) (if (= v true) 1 0) v))
         vimnil-nil  (fn [v] (if (= "userdata" (type v)) nil v))]
     (-> v
