@@ -10,7 +10,7 @@ View community usage examples/notes from within your editor.
 ```vim
 Plug 'olical/conjure'
 Plug 'tami5/sql.nvim'
-Plug 'tami5/conjure-lispdocs' " its a filetype plugin so no need to do any extra work.
+Plug 'tami5/lispdocs.nvim' " its a filetype plugin so no need to do any extra work.
 ```
 
 Mappings: 
@@ -43,7 +43,7 @@ nnoremap <leader>clojure :lua require'lispdocs'.split{ buf = {ft = "clojure"}}<c
 
 ## Someday
 
-- [ ] Create a fuzzy finder with telescope.nvim
+- [X] Create a fuzzy finder with telescope.nvim
 - [ ] Enable navigation between symbol docs through `See Also` section.
 - [ ] Print to conjure float buffer if a symbol is not found
 - [ ] support ClojureScript
