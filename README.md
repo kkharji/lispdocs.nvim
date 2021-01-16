@@ -21,7 +21,7 @@ Mappings:
 
 Options:
 
-disable default mappings: `let g:conjure_lispdocs_mappings = 0`
+disable default mappings: `let g:lispdocs_mappings = 0`
 
 ## API
 
