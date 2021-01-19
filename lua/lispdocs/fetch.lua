@@ -101,50 +101,59 @@ do
   _0_0["aniseed/locals"]["tmp-file-exists?"] = v_0_
   tmp_file_exists_3f = v_0_
 end
-local download = nil
+local dl = nil
 do
   local v_0_ = nil
-  local function download0(ext)
-    local downloaded = nil
+  local function dl0(ext, cb)
     if not tmp_file_exists_3f(ext) then
       local function _2_()
         if tmp_file_exists_3f(ext) then
-          downloaded = true
-          return nil
+          print(dl_succ(ext))
+          return cb(true)
         else
-          downloaded = false
-          return nil
+          return cb(false)
         end
       end
-      vim.fn.jobstart({"curl", "-L", get_url(ext), "-o", get_tmp_path(ext)}, {on_exit = _2_})
-      local function _3_()
-        return ((downloaded == true) or (downloaded == false))
-      end
-      vim.wait(100000, _3_)
-      assert(downloaded, dl_err(ext))
-      return print(dl_succ(ext))
+      return vim.fn.jobstart({"curl", "-L", get_url(ext), "-o", get_tmp_path(ext)}, {on_exit = _2_})
     end
   end
-  v_0_ = download0
-  _0_0["aniseed/locals"]["download"] = v_0_
-  download = v_0_
+  v_0_ = dl0
+  _0_0["aniseed/locals"]["dl"] = v_0_
+  dl = v_0_
+end
+local json_parse = nil
+do
+  local v_0_ = nil
+  local function json_parse0(ext)
+    local path = get_tmp_path(ext)
+    local file = io.open(path)
+    local json = file:read("*all")
+    file:close()
+    return vim.fn.json_decode(json)
+  end
+  v_0_ = json_parse0
+  _0_0["aniseed/locals"]["json-parse"] = v_0_
+  json_parse = v_0_
 end
 local data = nil
 do
   local v_0_ = nil
   do
     local v_0_0 = nil
-    local function data0(ext)
-      local path = get_tmp_path(ext)
-      local valid = tmp_file_exists_3f(ext)
-      if not valid then
+    local function data0(cb, ext)
+      if not tmp_file_exists_3f(ext) then
         print(dl_msg(ext))
-        download(ext)
+        local function _2_(_241)
+          if _241 then
+            return cb(json_parse(ext))
+          else
+            return error(dl_err(ext))
+          end
+        end
+        return dl(ext, _2_)
+      else
+        return cb(json_parse(ext))
       end
-      local file = io.open(path)
-      local json = file:read("*all")
-      file:close()
-      return vim.fn.json_decode(json)
     end
     v_0_0 = data0
     _0_0["data"] = v_0_0

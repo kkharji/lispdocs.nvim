@@ -17,11 +17,11 @@ end
 local function _1_(...)
   local ok_3f_0_, val_0_ = nil, nil
   local function _1_()
-    return {require("conjure.aniseed.core"), require("conjure.client"), require("lispdocs.db"), require("lispdocs.display"), require("conjure.eval"), require("conjure.aniseed.nvim")}
+    return {require("conjure.aniseed.core"), require("conjure.client"), require("lispdocs.db"), require("lispdocs.display"), require("conjure.eval"), require("lispdocs.util")}
   end
   ok_3f_0_, val_0_ = pcall(_1_)
   if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", client = "conjure.client", db = "lispdocs.db", display = "lispdocs.display", eval = "conjure.eval", nvim = "conjure.aniseed.nvim"}}
+    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", client = "conjure.client", db = "lispdocs.db", display = "lispdocs.display", eval = "conjure.eval", util = "lispdocs.util"}}
     return val_0_
   else
     return print(val_0_)
@@ -33,109 +33,118 @@ local client = _local_0_[2]
 local db = _local_0_[3]
 local display = _local_0_[4]
 local eval = _local_0_[5]
-local nvim = _local_0_[6]
+local util = _local_0_[6]
 local _2amodule_2a = _0_0
 local _2amodule_name_2a = "lispdocs"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local get_origin = nil
+local get_ft = nil
 do
   local v_0_ = nil
-  local function get_origin0(ext)
+  local function get_ft0(ext)
     local _2_0 = ext
     if (_2_0 == "clj") then
       return "clojure"
     else
       local _ = _2_0
-      return error(("lspdocs: " .. vim.fn.expand("%:e") .. " is not supported"))
+      return error(("lspdocs.nvim: " .. ext .. " is not supported"))
     end
   end
-  v_0_ = get_origin0
-  _0_0["aniseed/locals"]["get-origin"] = v_0_
-  get_origin = v_0_
+  v_0_ = get_ft0
+  _0_0["aniseed/locals"]["get-ft"] = v_0_
+  get_ft = v_0_
 end
-local reslove_symbol = nil
+local get_preview = nil
 do
   local v_0_ = nil
-  local function reslove_symbol0(cb, ext, symbol)
-    local function _2_(_241)
-      return cb(db.preview(ext, string.gsub(_241, "#'", "")))
+  local function get_preview0(ext, tbl, symbol)
+    local tbl0 = (db[ext] or {})
+    local _2_0 = (tbl0:get({keys = {"preview"}, where = {symbol = symbol}}))[1]
+    if _2_0 then
+      local _3_0 = _2_0.preview
+      if _3_0 then
+        return vim.split(_3_0, "||00||")
+      else
+        return _3_0
+      end
+    else
+      return _2_0
     end
-    return client["with-filetype"](get_origin(ext), eval["eval-str"], {["on-result"] = _2_, ["passive?"] = true, code = string.format("(resolve '%s)", symbol), origin = get_origin(ext)})
   end
-  v_0_ = reslove_symbol0
-  _0_0["aniseed/locals"]["reslove-symbol"] = v_0_
-  reslove_symbol = v_0_
+  v_0_ = get_preview0
+  _0_0["aniseed/locals"]["get-preview"] = v_0_
+  get_preview = v_0_
+end
+local resolve_2a = nil
+do
+  local v_0_ = nil
+  local function resolve_2a0(ext, res, cb)
+    local symbol = res:gsub("#'", "")
+    local tbl = (db[ext] or {})
+    local valid = (util.supported(ext) and tbl.has_content)
+    local preview = nil
+    local function _2_()
+      return get_preview(ext, tbl, symbol)
+    end
+    preview = _2_
+    if valid then
+      return cb(preview())
+    else
+      local function _3_()
+        return cb(preview())
+      end
+      return tbl:seed(_3_)
+    end
+  end
+  v_0_ = resolve_2a0
+  _0_0["aniseed/locals"]["resolve*"] = v_0_
+  resolve_2a = v_0_
+end
+local resolve = nil
+do
+  local v_0_ = nil
+  local function resolve0(ext, symbol, cb)
+    local origin = get_ft(ext)
+    local code = string.format("(resolve '%s)", symbol)
+    local on_result = nil
+    local function _2_(_241)
+      return resolve_2a(ext, _241, cb)
+    end
+    on_result = _2_
+    local passive_3f = true
+    local args = {["on-result"] = on_result, ["passive?"] = passive_3f, code = code, origin = origin}
+    return client["with-filetype"](origin, eval["eval-str"], args)
+  end
+  v_0_ = resolve0
+  _0_0["aniseed/locals"]["resolve"] = v_0_
+  resolve = v_0_
 end
 local display_docs = nil
 do
   local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function display_docs0(opts)
-      local symbol = (opts.symbol or vim.fn.expand("<cword>"))
-      local ext = vim.fn.expand("%:e")
-      local function _2_(_241)
-        local function _3_()
-          if a["empty?"](_241) then
-            return print(string.format("lspdocs.nvim: %s not found", symbol))
-          else
-            return a.assoc(opts, "content", _241)
-          end
+  local function display_docs0(opts)
+    local function _2_(_241, _242)
+      local function _3_()
+        if not a["empty?"](_241) then
+          return a.assoc(opts, "content", _241)
+        else
+          return print(("lspdocs.nvim: " .. _242 .. " not found"))
         end
-        return display.open(_3_())
       end
-      return reslove_symbol(_2_, ext, symbol)
+      return display.open(_3_())
     end
-    v_0_0 = display_docs0
-    _0_0["display-docs"] = v_0_0
-    v_0_ = v_0_0
+    return resolve((opts.ext or vim.fn.expand("%:e")), (opts.symbol or vim.fn.expand("<cword>")), _2_)
   end
+  v_0_ = display_docs0
   _0_0["aniseed/locals"]["display-docs"] = v_0_
   display_docs = v_0_
 end
-local float = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function float0(opts)
-      return display_docs(a.merge({display = "float"}, opts))
-    end
-    v_0_0 = float0
-    _0_0["float"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["float"] = v_0_
-  float = v_0_
+local function _2_(_241)
+  return display_docs(a.merge({display = "float"}, _241))
 end
-local vsplit = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function vsplit0(opts)
-      return display_docs(a.merge({display = "vsplit"}, opts))
-    end
-    v_0_0 = vsplit0
-    _0_0["vsplit"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["vsplit"] = v_0_
-  vsplit = v_0_
+local function _3_(_241)
+  return display_docs(a.merge({display = "split"}), _241)
 end
-local split = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function split0(opts)
-      return display_docs(a.merge({display = "split"}), opts)
-    end
-    v_0_0 = split0
-    _0_0["split"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["split"] = v_0_
-  split = v_0_
+local function _4_(_241)
+  return display_docs(a.merge({display = "vsplit"}, _241))
 end
-return nil
+return {["display-docs"] = display_docs, float = _2_, split = _3_, vsplit = _4_}

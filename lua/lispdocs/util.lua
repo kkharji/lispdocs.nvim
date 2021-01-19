@@ -108,4 +108,25 @@ do
   _0_0["aniseed/locals"]["not-nil?"] = v_0_
   not_nil_3f = v_0_
 end
+local supported = nil
+do
+  local v_0_ = nil
+  do
+    local v_0_0 = nil
+    local function supported0(ext)
+      local _2_0 = ext
+      if (_2_0 == "clj") then
+        return true
+      else
+        local _ = _2_0
+        return error(("lspdocs: " .. ext .. " is not supported"))
+      end
+    end
+    v_0_0 = supported0
+    _0_0["supported"] = v_0_0
+    v_0_ = v_0_0
+  end
+  _0_0["aniseed/locals"]["supported"] = v_0_
+  supported = v_0_
+end
 return nil

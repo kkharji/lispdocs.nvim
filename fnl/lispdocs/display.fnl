@@ -28,6 +28,7 @@
     winid))
 
 (defn- set-buffer [bufnr content opts]
+  ;; Set buffer name
   (let [opts (a.merge
                {:filetype :markdown
                 :buflisted false

@@ -38,7 +38,7 @@ local _2amodule_name_2a = "lispdocs.db"
 do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
 local dbpath = nil
 do
-  local v_0_ = (util["cache-dir"]() .. "/usage_docs.db")
+  local v_0_ = (vim.fn.stdpath("data") .. "/lispdocs.db")
   _0_0["aniseed/locals"]["dbpath"] = v_0_
   dbpath = v_0_
 end
@@ -48,130 +48,18 @@ do
   _0_0["aniseed/locals"]["db"] = v_0_
   db = v_0_
 end
-local schemas = nil
+local _2_
 do
-  local v_0_ = {clj = {arglists = "text", doc = "text", ensure = true, examples = "text", id = {"integer", "primary", "key"}, macro = "integer", name = "text", notes = "text", ns = "text", preview = "text", see_alsos = "text", static = "integer", symbol = "text", type = "text"}}
-  _0_0["aniseed/locals"]["schemas"] = v_0_
-  schemas = v_0_
-end
-local seed_clj = nil
-do
-  local v_0_ = nil
-  local function seed_clj0(cb)
-    local function _2_()
-      local items = raw.get("clj")
-      db:create("clj", schemas.clj)
-      db:insert("clj", items)
-      if cb then
-        return cb()
-      end
+  local tbl = db:table("clj")
+  tbl:schema({arglists = "text", doc = "text", ensure = true, examples = "text", id = {"integer", "primary", "key"}, macro = "integer", name = "text", notes = "text", ns = "text", preview = "text", see_alsos = "text", static = "integer", symbol = "text", type = "text"})
+  local function _3_(self, cb)
+    local function _4_(_241)
+      self:insert(_241)
+      return cb()
     end
-    return db:with_open(_2_)
+    return raw.get(_4_, "clj")
   end
-  v_0_ = seed_clj0
-  _0_0["aniseed/locals"]["seed-clj"] = v_0_
-  seed_clj = v_0_
+  tbl["seed"] = _3_
+  _2_ = tbl
 end
-local seed = nil
-do
-  local v_0_ = nil
-  local function seed0(ext, cb)
-    local _2_0 = ext
-    if (_2_0 == "clj") then
-      return seed_clj(cb)
-    else
-      local _ = _2_0
-      return error(string.format("lspdocs.nvim: File extension: %s is not supported.", ext))
-    end
-  end
-  v_0_ = seed0
-  _0_0["aniseed/locals"]["seed"] = v_0_
-  seed = v_0_
-end
-local query_2a = nil
-do
-  local v_0_ = nil
-  local function query_2a0(ext, symbol, preview)
-    local res = nil
-    if a["string?"](symbol) then
-      res = (db:select(ext, {where = {symbol = symbol}}))[1]
-    else
-      res = db:select(ext, {select = {"ns", "name", "type"}})
-    end
-    if preview then
-      local _3_0 = res
-      if _3_0 then
-        local _4_0 = _3_0.preview
-        if _4_0 then
-          return vim.split(_4_0, "||00||")
-        else
-          return _4_0
-        end
-      else
-        return _3_0
-      end
-    else
-      return res
-    end
-  end
-  v_0_ = query_2a0
-  _0_0["aniseed/locals"]["query*"] = v_0_
-  query_2a = v_0_
-end
-local query = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function query0(ext, symbol, preview)
-      local function _2_()
-        local exists = db:exists(ext)
-        if not exists then
-          local function _3_()
-            return query_2a(ext, symbol, preview)
-          end
-          return seed(ext, _3_)
-        else
-          return query_2a(ext, symbol, preview)
-        end
-      end
-      return db:with_open(_2_)
-    end
-    v_0_0 = query0
-    _0_0["query"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["query"] = v_0_
-  query = v_0_
-end
-local all = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function all0(ext)
-      return query(ext, true)
-    end
-    v_0_0 = all0
-    _0_0["all"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["all"] = v_0_
-  all = v_0_
-end
-local preview = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function preview0(ext, symbol)
-      return query(ext, symbol, true)
-    end
-    v_0_0 = preview0
-    _0_0["preview"] = v_0_0
-    v_0_ = v_0_0
-  end
-  _0_0["aniseed/locals"]["preview"] = v_0_
-  preview = v_0_
-end
-return nil
+return {clj = _2_}

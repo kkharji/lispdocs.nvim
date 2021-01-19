@@ -30,29 +30,29 @@
          (> (. (vim.loop.fs_stat path) :size)
             1700))))
 
-(defn- download [ext]
+(defn- dl [ext cb]
   "Download doc usage file."
-  (var downloaded nil)
   (when (not (tmp-file-exists? ext))
     (vim.fn.jobstart
       ["curl" "-L" (get-url ext) "-o" (get-tmp-path ext)]
       {:on_exit #(if (tmp-file-exists? ext)
-                    (set downloaded true)
-                    (set downloaded false))})
-    ;; TODO: find better non-blocking way.
-    (vim.wait 100000 #(or (= downloaded true)
-                          (= downloaded false)))
-    (assert downloaded (dl-err ext))
-    (print (dl-succ ext))))
+                   (do (print (dl-succ ext))
+                     (cb true))
+                   (cb false))})))
 
-(defn data [ext]
-  "return lua table for ext's json"
+(defn- json-parse [ext]
   (let [path (get-tmp-path ext)
-        valid (tmp-file-exists? ext)]
-    (when (not valid)
-      (print (dl-msg ext))
-      (download ext))
-    (let [file (io.open path)
-          json (file:read "*all")]
-      (file:close)
-      (vim.fn.json_decode json))))
+        file (io.open path)
+        json (file:read "*all")]
+    (file:close)
+    (vim.fn.json_decode json)))
+
+(defn data [cb ext]
+  "return lua table for ext's json"
+  (if (not (tmp-file-exists? ext))
+    (do (print (dl-msg ext))
+      (dl ext
+          #(if $1
+             (cb (json-parse ext))
+             (error (dl-err ext)))))
+    (cb (json-parse ext))))

@@ -197,8 +197,26 @@ end
 local get_clj = nil
 do
   local v_0_ = nil
-  local function get_clj0()
-    return a.map(format_clj_entry, a.map(compact_clj_item, fetch.data("clj").vars))
+  local function get_clj0(cb)
+    local function _2_(_241)
+      local _3_0 = _241.vars
+      if _3_0 then
+        local _4_0 = a.map(compact_clj_item, _3_0)
+        if _4_0 then
+          local _5_0 = a.map(format_clj_entry, _4_0)
+          if _5_0 then
+            return cb(_5_0)
+          else
+            return _5_0
+          end
+        else
+          return _4_0
+        end
+      else
+        return _3_0
+      end
+    end
+    return fetch.data(_2_, "clj")
   end
   v_0_ = get_clj0
   _0_0["aniseed/locals"]["get-clj"] = v_0_
@@ -209,10 +227,10 @@ do
   local v_0_ = nil
   do
     local v_0_0 = nil
-    local function get0(ext)
+    local function get0(cb, ext)
       local _2_0 = ext
       if (_2_0 == "clj") then
-        return get_clj()
+        return get_clj(cb)
       end
     end
     v_0_0 = get0

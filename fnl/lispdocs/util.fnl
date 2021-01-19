@@ -32,3 +32,8 @@
 (defn not-nil? [v]
   (and (not (a.nil? v))
        (not= "userdata" (type v))))
+
+(defn supported [ext]
+  (match ext ;; get filetype from extension.
+    "clj" true
+    _ (error (.. "lspdocs: " ext " is not supported"))))

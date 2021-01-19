@@ -1,25 +1,40 @@
 (module lispdocs
-  {require {nvim conjure.aniseed.nvim
-            a conjure.aniseed.core
+  {require {a conjure.aniseed.core
             client conjure.client
             eval conjure.eval
             db lispdocs.db
+            util lispdocs.util
             display lispdocs.display}})
 
-
-(defn- get-origin [ext]
+(defn- get-ft [ext]
   (match ext
     "clj" "clojure"
-    _ (error (.. "lspdocs: " (vim.fn.expand "%:e") " is not supported"))))
+    _ (error (.. "lspdocs.nvim: " ext " is not supported"))))
 
-(defn- reslove-symbol [cb ext symbol]
-  (client.with-filetype (get-origin ext) eval.eval-str
-                        {:origin (get-origin ext)
-                         :code (string.format "(resolve '%s)" symbol)
-                         :passive? true
-                         :on-result #(cb (db.preview ext (string.gsub $1 "#'" "")))}))
+(defn- get-preview [ext tbl symbol]
+  (let [tbl (or (. db ext) {})]
+    (-?> (. (tbl:get {:keys ["preview"] :where {: symbol}}) 1)
+         (. :preview)
+         (vim.split "||00||"))))
 
-(defn display-docs [opts]
+(defn- resolve* [ext res cb]
+  (let [symbol (res:gsub "#'" "")
+        tbl (or (. db ext) {})
+        valid (and (util.supported ext) tbl.has_content)
+        preview #(get-preview ext tbl symbol)]
+    (if valid
+      (cb (preview))
+      (tbl:seed #(cb (preview))))))
+
+(defn- resolve [ext symbol cb]
+  (let [origin (get-ft ext)
+        code (string.format "(resolve '%s)" symbol)
+        on-result #(resolve* ext $1 cb)
+        passive? true
+        args {: origin : code  : passive?  : on-result}]
+    (client.with-filetype origin eval.eval-str args)))
+
+(defn- display-docs [opts]
   "Main function of this namespace.
    Accepts a map defining a set configuration options.
    opts.symbol    :str:     The symbol to search for.
@@ -28,25 +43,15 @@
    opts.fill      :num:     Float window size.
    opts.border    :list:    Float window Border.
    opts.buf       :dict:    Buffer specfic options."
-  (let [symbol (or opts.symbol (vim.fn.expand "<cword>"))
-        ext (vim.fn.expand "%:e")]
-    (reslove-symbol
-      #(display.open
-         (if (a.empty? $1)
-           ;; TODO: should also log to conjure buffer
-           (print (string.format "lspdocs.nvim: %s not found" symbol))
-           (a.assoc opts :content $1)))
-      ext symbol)))
+  (resolve
+    (or opts.ext (vim.fn.expand "%:e"))
+    (or opts.symbol (vim.fn.expand "<cword>"))
+    #(display.open
+       (if (not (a.empty? $1))
+         (a.assoc opts :content $1)
+         (print (.. "lspdocs.nvim: " $2 " not found"))))))  ;; TODO: print log to conjure buffer
 
-(defn float [opts]
-  (display-docs
-    (a.merge {:display :float} opts)))
-
-(defn vsplit [opts]
-  (display-docs
-    (a.merge {:display :vsplit} opts)))
-
-(defn split [opts]
-  (display-docs
-    (a.merge {:display :split}) opts))
-
+{: display-docs
+ :float  #(display-docs (a.merge {:display :float} $1))
+ :vsplit #(display-docs (a.merge {:display :vsplit} $1))
+ :split  #(display-docs (a.merge {:display :split}) $1)}

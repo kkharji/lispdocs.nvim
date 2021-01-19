@@ -46,12 +46,14 @@
       (tset res (k:gsub "-" "_") (fix-datatypes v)))
     res))
 
-(defn- get-clj []
-  (a.map format-clj-entry
-    (a.map compact-clj-item
-           (-> (fetch.data "clj")
-               (. :vars)))))
+(defn- get-clj [cb]
+  (fetch.data
+    #(-?>> (. $1 :vars)
+           (a.map compact-clj-item)
+           (a.map format-clj-entry)
+           cb)
+    "clj"))
 
-(defn get [ext]
+(defn get [cb ext]
   (match ext
-   "clj" (get-clj)))
+   "clj" (get-clj cb)))
