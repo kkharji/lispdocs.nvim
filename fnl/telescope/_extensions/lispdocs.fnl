@@ -48,7 +48,7 @@
              (putils.highlighter self.state.bufnr "markdown")))})) {}))
 
 (defn- set-mappings [bufnr]
-  (actions._goto_file_selection:replace
+  (actions.select_default:replace
     (fn [_ cmd]
       (actions.close bufnr)
       (let [last_bufnr (state.get_global_key "last_preview_bufnr")
