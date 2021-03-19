@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "lispdocs.display"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -58,7 +60,8 @@ do
     return winid
   end
   v_0_ = draw_border0
-  _0_0["aniseed/locals"]["draw-border"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["draw-border"] = v_0_
   draw_border = v_0_
 end
 local set_buffer = nil
@@ -73,7 +76,8 @@ do
     return vim.api.nvim_win_set_cursor(0, {1, 0})
   end
   v_0_ = set_buffer0
-  _0_0["aniseed/locals"]["set-buffer"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["set-buffer"] = v_0_
   set_buffer = v_0_
 end
 local set_float = nil
@@ -103,7 +107,8 @@ do
     return vim.cmd(str.join(" ", {"au", "WinClosed,WinLeave", string.format("<buffer=%d>", opts.bufnr), ":bd!", "|", "call", string.format("nvim_win_close(%d,", border), "v:true)"}))
   end
   v_0_ = set_float0
-  _0_0["aniseed/locals"]["set-float"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["set-float"] = v_0_
   set_float = v_0_
 end
 local get_float_opts = nil
@@ -112,7 +117,7 @@ do
   local function get_float_opts0(opts)
     local relative = (opts.relative or "editor")
     local style = (opts.style or "minimal")
-    local fill = (opts.fill or 0.80000000000000004)
+    local fill = (opts.fill or 0.8)
     local width = math.floor((vim.o.columns * fill))
     local height = math.floor((vim.o.lines * fill))
     local row = math.floor((((vim.o.lines - height) / 2) - 1))
@@ -120,7 +125,8 @@ do
     return {col = col, height = height, relative = relative, row = row, style = style, width = width}
   end
   v_0_ = get_float_opts0
-  _0_0["aniseed/locals"]["get-float-opts"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get-float-opts"] = v_0_
   get_float_opts = v_0_
 end
 local open_float = nil
@@ -135,7 +141,8 @@ do
     return set_buffer(bufnr, opts.content, opts.buf)
   end
   v_0_ = open_float0
-  _0_0["aniseed/locals"]["open-float"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["open-float"] = v_0_
   open_float = v_0_
 end
 local open_split = nil
@@ -146,7 +153,8 @@ do
     return set_buffer(0, opts.content, opts.buf)
   end
   v_0_ = open_split0
-  _0_0["aniseed/locals"]["open-split"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["open-split"] = v_0_
   open_split = v_0_
 end
 local open = nil
@@ -170,7 +178,8 @@ do
     _0_0["open"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["open"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["open"] = v_0_
   open = v_0_
 end
 return nil

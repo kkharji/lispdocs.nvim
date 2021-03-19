@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "lispdocs"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -50,7 +52,8 @@ do
     end
   end
   v_0_ = get_ft0
-  _0_0["aniseed/locals"]["get-ft"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get-ft"] = v_0_
   get_ft = v_0_
 end
 local get_preview = nil
@@ -60,7 +63,7 @@ do
     local tbl0 = (db[ext] or {})
     local _2_0 = (tbl0:get({keys = {"preview"}, where = {symbol = symbol}}))[1]
     if _2_0 then
-      local _3_0 = _2_0.preview
+      local _3_0 = (_2_0).preview
       if _3_0 then
         return vim.split(_3_0, "||00||")
       else
@@ -71,7 +74,8 @@ do
     end
   end
   v_0_ = get_preview0
-  _0_0["aniseed/locals"]["get-preview"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get-preview"] = v_0_
   get_preview = v_0_
 end
 local resolve_2a = nil
@@ -96,7 +100,8 @@ do
     end
   end
   v_0_ = resolve_2a0
-  _0_0["aniseed/locals"]["resolve*"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["resolve*"] = v_0_
   resolve_2a = v_0_
 end
 local resolve = nil
@@ -115,7 +120,8 @@ do
     return client["with-filetype"](origin, eval["eval-str"], args)
   end
   v_0_ = resolve0
-  _0_0["aniseed/locals"]["resolve"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["resolve"] = v_0_
   resolve = v_0_
 end
 local display_docs = nil
@@ -135,7 +141,8 @@ do
     return resolve((opts.ext or vim.fn.expand("%:e")), (opts.symbol or vim.fn.expand("<cword>")), _2_)
   end
   v_0_ = display_docs0
-  _0_0["aniseed/locals"]["display-docs"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["display-docs"] = v_0_
   display_docs = v_0_
 end
 local function _2_(_241)

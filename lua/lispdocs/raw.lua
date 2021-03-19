@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "lispdocs.raw"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -74,7 +76,8 @@ do
     return vimnil_nil(boolean_int(list_string(v)))
   end
   v_0_ = fix_datatypes0
-  _0_0["aniseed/locals"]["fix-datatypes"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["fix-datatypes"] = v_0_
   fix_datatypes = v_0_
 end
 local see_also_item = nil
@@ -93,7 +96,8 @@ do
     end
   end
   v_0_ = see_also_item0
-  _0_0["aniseed/locals"]["see-also-item"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["see-also-item"] = v_0_
   see_also_item = v_0_
 end
 local see_alsos = nil
@@ -115,7 +119,8 @@ do
     return a.update(i, "see-alsos", mapover)
   end
   v_0_ = see_alsos0
-  _0_0["aniseed/locals"]["see-alsos"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["see-alsos"] = v_0_
   see_alsos = v_0_
 end
 local get_body = nil
@@ -126,7 +131,7 @@ do
       local _2_0 = i
       if _2_0 then
         local function _3_(_241)
-          return _241.body
+          return (_241).body
         end
         return a.map(_3_, _2_0)
       else
@@ -135,7 +140,8 @@ do
     end
   end
   v_0_ = get_body0
-  _0_0["aniseed/locals"]["get-body"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get-body"] = v_0_
   get_body = v_0_
 end
 local compact_clj_item = nil
@@ -175,7 +181,8 @@ do
     return a["select-keys"](_5_, {"arglists", "doc", "notes", "examples", "name", "ns", "see-alsos", "static", "type", "symbol"})
   end
   v_0_ = compact_clj_item0
-  _0_0["aniseed/locals"]["compact-clj-item"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["compact-clj-item"] = v_0_
   compact_clj_item = v_0_
 end
 local format_clj_entry = nil
@@ -191,7 +198,8 @@ do
     return res
   end
   v_0_ = format_clj_entry0
-  _0_0["aniseed/locals"]["format-clj-entry"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-clj-entry"] = v_0_
   format_clj_entry = v_0_
 end
 local get_clj = nil
@@ -199,7 +207,7 @@ do
   local v_0_ = nil
   local function get_clj0(cb)
     local function _2_(_241)
-      local _3_0 = _241.vars
+      local _3_0 = (_241).vars
       if _3_0 then
         local _4_0 = a.map(compact_clj_item, _3_0)
         if _4_0 then
@@ -219,7 +227,8 @@ do
     return fetch.data(_2_, "clj")
   end
   v_0_ = get_clj0
-  _0_0["aniseed/locals"]["get-clj"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get-clj"] = v_0_
   get_clj = v_0_
 end
 local get = nil
@@ -237,7 +246,8 @@ do
     _0_0["get"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["get"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get"] = v_0_
   get = v_0_
 end
 return nil

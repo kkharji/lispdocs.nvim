@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "lispdocs.fetch"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -44,7 +46,8 @@ do
     end
   end
   v_0_ = get_url0
-  _0_0["aniseed/locals"]["get-url"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get-url"] = v_0_
   get_url = v_0_
 end
 local get_tmp_path = nil
@@ -57,7 +60,8 @@ do
     end
   end
   v_0_ = get_tmp_path0
-  _0_0["aniseed/locals"]["get-tmp-path"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["get-tmp-path"] = v_0_
   get_tmp_path = v_0_
 end
 local dl_msg = nil
@@ -67,7 +71,8 @@ do
     return str.join(" ", {"lspdocs.nvim: Caching data for", ext, "....."})
   end
   v_0_ = dl_msg0
-  _0_0["aniseed/locals"]["dl-msg"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["dl-msg"] = v_0_
   dl_msg = v_0_
 end
 local dl_err = nil
@@ -77,7 +82,8 @@ do
     return str.join(" ", {"lspdocs.nvim: Couldn't download data for ", ext, " processing,", "try again or report issue."})
   end
   v_0_ = dl_err0
-  _0_0["aniseed/locals"]["dl-err"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["dl-err"] = v_0_
   dl_err = v_0_
 end
 local dl_succ = nil
@@ -87,7 +93,8 @@ do
     return str.join(" ", {"lispdocs.nvim: data for", ext, "has been downloaded successfully."})
   end
   v_0_ = dl_succ0
-  _0_0["aniseed/locals"]["dl-succ"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["dl-succ"] = v_0_
   dl_succ = v_0_
 end
 local tmp_file_exists_3f = nil
@@ -98,7 +105,8 @@ do
     return (util["exists?"](path) and (vim.loop.fs_stat(path).size > 1700))
   end
   v_0_ = tmp_file_exists_3f0
-  _0_0["aniseed/locals"]["tmp-file-exists?"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["tmp-file-exists?"] = v_0_
   tmp_file_exists_3f = v_0_
 end
 local dl = nil
@@ -118,7 +126,8 @@ do
     end
   end
   v_0_ = dl0
-  _0_0["aniseed/locals"]["dl"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["dl"] = v_0_
   dl = v_0_
 end
 local json_parse = nil
@@ -132,7 +141,8 @@ do
     return vim.fn.json_decode(json)
   end
   v_0_ = json_parse0
-  _0_0["aniseed/locals"]["json-parse"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["json-parse"] = v_0_
   json_parse = v_0_
 end
 local data = nil
@@ -159,7 +169,8 @@ do
     _0_0["data"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["data"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["data"] = v_0_
   data = v_0_
 end
 return nil

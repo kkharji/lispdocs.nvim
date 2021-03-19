@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "lispdocs.db"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -39,13 +41,15 @@ do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
 local dbpath = nil
 do
   local v_0_ = (vim.fn.stdpath("data") .. "/lispdocs.db")
-  _0_0["aniseed/locals"]["dbpath"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["dbpath"] = v_0_
   dbpath = v_0_
 end
 local db = nil
 do
   local v_0_ = sql.new(dbpath)
-  _0_0["aniseed/locals"]["db"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["db"] = v_0_
   db = v_0_
 end
 local _2_

@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "lispdocs.parse"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -53,7 +55,8 @@ do
     end
   end
   v_0_ = format_list0
-  _0_0["aniseed/locals"]["format-list"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-list"] = v_0_
   format_list = v_0_
 end
 local format_signture = nil
@@ -68,7 +71,8 @@ do
     end
   end
   v_0_ = format_signture0
-  _0_0["aniseed/locals"]["format-signture"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-signture"] = v_0_
   format_signture = v_0_
 end
 local format_doc = nil
@@ -80,7 +84,8 @@ do
     end
   end
   v_0_ = format_doc0
-  _0_0["aniseed/locals"]["format-doc"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-doc"] = v_0_
   format_doc = v_0_
 end
 local format_header = nil
@@ -92,7 +97,8 @@ do
     end
   end
   v_0_ = format_header0
-  _0_0["aniseed/locals"]["format-header"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-header"] = v_0_
   format_header = v_0_
 end
 local format_see_also = nil
@@ -109,7 +115,8 @@ do
     end
   end
   v_0_ = format_see_also0
-  _0_0["aniseed/locals"]["format-see-also"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-see-also"] = v_0_
   format_see_also = v_0_
 end
 local format_examples = nil
@@ -119,7 +126,8 @@ do
     return format_list("Usage", examples, "### Example %d:\n\n```clojure\n%s\n```\n--------------\n")
   end
   v_0_ = format_examples0
-  _0_0["aniseed/locals"]["format-examples"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-examples"] = v_0_
   format_examples = v_0_
 end
 local format_notes = nil
@@ -129,7 +137,8 @@ do
     return format_list("Notes", notes, "### Note %d:\n%s\n\n--------------\n")
   end
   v_0_ = format_notes0
-  _0_0["aniseed/locals"]["format-notes"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["format-notes"] = v_0_
   format_notes = v_0_
 end
 local clj_symbol = nil
@@ -146,7 +155,8 @@ do
     _0_0["clj-symbol"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["clj-symbol"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["clj-symbol"] = v_0_
   clj_symbol = v_0_
 end
 local parse_for = nil
@@ -164,7 +174,8 @@ do
     _0_0["parse-for"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["parse-for"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["parse-for"] = v_0_
   parse_for = v_0_
 end
 return nil

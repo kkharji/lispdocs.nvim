@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "telescope.__extensions.lispdocs"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -52,7 +54,8 @@ do
     return displayer({{entry.name, "TelescopeResultsNumber"}, {entry.ns, "TabLine"}})
   end
   v_0_ = make_display0
-  _0_0["aniseed/locals"]["make-display"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["make-display"] = v_0_
   make_display = v_0_
 end
 local entry_maker = nil
@@ -65,7 +68,8 @@ do
     return {display = make_display, name = name, ns = ns, ordinal = (ns .. " " .. name), preview = entry.preview, symbol = entry.symbol, value = entry}
   end
   v_0_ = entry_maker0
-  _0_0["aniseed/locals"]["entry-maker"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["entry-maker"] = v_0_
   entry_maker = v_0_
 end
 local previewer = nil
@@ -85,7 +89,8 @@ do
     return previewers.new_buffer_previewer({define_preview = _3_, get_buffer_by_name = _4_, keep_last_buf = true})
   end
   v_0_ = utils.make_default_callable(_2_, {})
-  _0_0["aniseed/locals"]["previewer"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["previewer"] = v_0_
   previewer = v_0_
 end
 local set_mappings = nil
@@ -111,11 +116,12 @@ do
         return run(":tab sb")
       end
     end
-    do end (actions._goto_file_selection):replace(_2_)
+    do end (actions.select_default):replace(_2_)
     return true
   end
   v_0_ = set_mappings0
-  _0_0["aniseed/locals"]["set-mappings"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["set-mappings"] = v_0_
   set_mappings = v_0_
 end
 local lispdocs_find = nil
@@ -126,7 +132,8 @@ do
     return pickers.new(opts, config):find()
   end
   v_0_ = lispdocs_find0
-  _0_0["aniseed/locals"]["lispdocs-find"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["lispdocs-find"] = v_0_
   lispdocs_find = v_0_
 end
 local function _2_(_241)

@@ -1,16 +1,18 @@
 local _0_0 = nil
 do
   local name_0_ = "lispdocs.util"
-  local loaded_0_ = package.loaded[name_0_]
   local module_0_ = nil
-  if ("table" == type(loaded_0_)) then
-    module_0_ = loaded_0_
-  else
-    module_0_ = {}
+  do
+    local x_0_ = package.loaded[name_0_]
+    if ("table" == type(x_0_)) then
+      module_0_ = x_0_
+    else
+      module_0_ = {}
+    end
   end
   module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = (module_0_["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = (module_0_["aniseed/local-fns"] or {})
+  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
+  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
   package.loaded[name_0_] = module_0_
   _0_0 = module_0_
 end
@@ -51,7 +53,8 @@ do
     _0_0["exists?"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["exists?"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["exists?"] = v_0_
   exists_3f = v_0_
 end
 local ensure = nil
@@ -75,7 +78,8 @@ do
     _0_0["ensure"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["ensure"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["ensure"] = v_0_
   ensure = v_0_
 end
 local cache_dir = nil
@@ -90,7 +94,8 @@ do
     _0_0["cache-dir"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["cache-dir"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["cache-dir"] = v_0_
   cache_dir = v_0_
 end
 local not_nil_3f = nil
@@ -105,7 +110,8 @@ do
     _0_0["not-nil?"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["not-nil?"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["not-nil?"] = v_0_
   not_nil_3f = v_0_
 end
 local supported = nil
@@ -126,7 +132,8 @@ do
     _0_0["supported"] = v_0_0
     v_0_ = v_0_0
   end
-  _0_0["aniseed/locals"]["supported"] = v_0_
+  local t_0_ = (_0_0)["aniseed/locals"]
+  t_0_["supported"] = v_0_
   supported = v_0_
 end
 return nil
