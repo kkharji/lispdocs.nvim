@@ -5,7 +5,9 @@ View community usage examples/notes from within your editor.
 ![](./docs/preview.gif)
 
 
-## Installation 
+## Installation
+
+Note: This plugin will only work on neovim 0.5.
 
 ```vim
 Plug 'olical/conjure'
@@ -13,7 +15,7 @@ Plug 'tami5/sql.nvim'
 Plug 'tami5/lispdocs.nvim' " its a filetype plugin so no need to do any extra work.
 ```
 
-Mappings: 
+Mappings:
 
 - `<leader>hh` open a float
 - `<leader>hv` open vsplit
@@ -28,7 +30,7 @@ disable default mappings: `let g:lispdocs_mappings = 0`
 `lispdocs` functions takes a dict defining the following.
 
 - `opts.display`: which display type to use, "vsplit", "float", "split". o
-- `opts.win`: float options (look at vim.w), most notably `winhl` which the background highlighting and `winblend` for transparency 
+- `opts.win`: float options (look at vim.w), most notably `winhl` which the background highlighting and `winblend` for transparency
 - `opts.symbol`: The symbol to search for.
 - `opts.fill`: How much the float window should cover, default 80% or as the option expect `0.8` .
 - `opts.border`: the float window chars, see default `["─" "│" "╭" "╮" "╰" "╯"]`.
