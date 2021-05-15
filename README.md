@@ -20,6 +20,7 @@ Mappings:
 - `<leader>hh` open a float
 - `<leader>hv` open vsplit
 - `<leader>hs` open split
+- `<leader>hn` open in the current window
 
 Options:
 

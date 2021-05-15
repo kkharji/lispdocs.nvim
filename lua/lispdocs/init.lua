@@ -149,9 +149,12 @@ local function _2_(_241)
   return display_docs(a.merge({display = "float"}, _241))
 end
 local function _3_(_241)
-  return display_docs(a.merge({display = "split"}), _241)
+  return display_docs(a.merge({display = "normal"}), _241)
 end
 local function _4_(_241)
+  return display_docs(a.merge({display = "split"}), _241)
+end
+local function _5_(_241)
   return display_docs(a.merge({display = "vsplit"}, _241))
 end
-return {["display-docs"] = display_docs, float = _2_, split = _3_, vsplit = _4_}
+return {["display-docs"] = display_docs, float = _2_, normal = _3_, split = _4_, vsplit = _5_}
