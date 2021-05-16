@@ -145,17 +145,17 @@ do
   t_0_["open-float"] = v_0_
   open_float = v_0_
 end
-local open_split = nil
+local open_normal = nil
 do
   local v_0_ = nil
-  local function open_split0(cmd, opts)
+  local function open_normal0(cmd, opts)
     vim.cmd(cmd)
     return set_buffer(0, opts.content, opts.buf)
   end
-  v_0_ = open_split0
+  v_0_ = open_normal0
   local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["open-split"] = v_0_
-  open_split = v_0_
+  t_0_["open-normal"] = v_0_
+  open_normal = v_0_
 end
 local open = nil
 do
@@ -168,9 +168,11 @@ do
         if (_2_0 == "float") then
           return open_float(opts)
         elseif (_2_0 == "split") then
-          return open_split("new", opts)
+          return open_normal("new", opts)
         elseif (_2_0 == "vsplit") then
-          return open_split("vnew", opts)
+          return open_normal("vnew", opts)
+        elseif (_2_0 == "normal") then
+          return open_normal("enew", opts)
         end
       end
     end

@@ -54,4 +54,5 @@
 {: display-docs
  :float  #(display-docs (a.merge {:display :float} $1))
  :vsplit #(display-docs (a.merge {:display :vsplit} $1))
- :split  #(display-docs (a.merge {:display :split}) $1)}
+ :split  #(display-docs (a.merge {:display :split}) $1)
+ :normal #(display-docs (a.merge {:display :normal}) $1)}

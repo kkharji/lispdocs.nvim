@@ -84,7 +84,7 @@
     (set-float {:win opts.win : primary-winid : border-winid : bufnr})
     (set-buffer bufnr opts.content opts.buf)))
 
-(defn- open-split [cmd opts]
+(defn- open-normal [cmd opts]
   (vim.cmd cmd)
   (set-buffer 0 opts.content opts.buf))
 
@@ -92,6 +92,7 @@
   (when (and opts opts.content)
     (match opts.display
       :float  (open-float opts)
-      :split  (open-split "new" opts)
-      :vsplit (open-split "vnew" opts))))
+      :split  (open-normal "new" opts)
+      :vsplit (open-normal "vnew" opts)
+      :normal (open-normal "enew" opts))))
 
