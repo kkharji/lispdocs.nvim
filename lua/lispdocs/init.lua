@@ -45,7 +45,9 @@ do
   local function get_ft0(ext)
     local _2_0 = ext
     if (_2_0 == "clj") then
-      return "clojure"
+      return {"clj", "clojure"}
+    elseif (_2_0 == "cljc") then
+      return {"clj", "clojure"}
     else
       local _ = _2_0
       return error(("lspdocs.nvim: " .. ext .. " is not supported"))
@@ -108,11 +110,13 @@ local resolve = nil
 do
   local v_0_ = nil
   local function resolve0(ext, symbol, cb)
-    local origin = get_ft(ext)
+    local _let_0_ = get_ft(ext)
+    local ext_alt = _let_0_[1]
+    local origin = _let_0_[2]
     local code = string.format("(resolve '%s)", symbol)
     local on_result = nil
     local function _2_(_241)
-      return resolve_2a(ext, _241, cb)
+      return resolve_2a(ext_alt, _241, cb)
     end
     on_result = _2_
     local passive_3f = true

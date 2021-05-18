@@ -8,7 +8,8 @@
 
 (defn- get-ft [ext]
   (match ext
-    "clj" "clojure"
+    "clj" ["clj" "clojure"]
+    "cljc" ["clj" "clojure"]
     _ (error (.. "lspdocs.nvim: " ext " is not supported"))))
 
 (defn- get-preview [ext tbl symbol]
@@ -27,9 +28,9 @@
       (tbl:seed #(cb (preview))))))
 
 (defn- resolve [ext symbol cb]
-  (let [origin (get-ft ext)
+  (let [[ext-alt origin] (get-ft ext)
         code (string.format "(resolve '%s)" symbol)
-        on-result #(resolve* ext $1 cb)
+        on-result #(resolve* ext-alt $1 cb)
         passive? true
         args {: origin : code  : passive?  : on-result}]
     (client.with-filetype origin eval.eval-str args)))
