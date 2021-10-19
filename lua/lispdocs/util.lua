@@ -1,139 +1,59 @@
-local _0_0 = nil
-do
-  local name_0_ = "lispdocs.util"
-  local module_0_ = nil
-  do
-    local x_0_ = package.loaded[name_0_]
-    if ("table" == type(x_0_)) then
-      module_0_ = x_0_
-    else
-      module_0_ = {}
-    end
-  end
-  module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
-  package.loaded[name_0_] = module_0_
-  _0_0 = module_0_
-end
-local function _1_(...)
-  local ok_3f_0_, val_0_ = nil, nil
-  local function _1_()
-    return {require("conjure.aniseed.core"), require("conjure.aniseed.string")}
-  end
-  ok_3f_0_, val_0_ = pcall(_1_)
-  if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", str = "conjure.aniseed.string"}}
-    return val_0_
-  else
-    return print(val_0_)
-  end
-end
-local _local_0_ = _1_(...)
-local a = _local_0_[1]
-local str = _local_0_[2]
-local _2amodule_2a = _0_0
+local _2afile_2a = "fnl/lispdocs/util.fnl"
 local _2amodule_name_2a = "lispdocs.util"
-do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local exists_3f = nil
+local _2amodule_2a
 do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function exists_3f0(p)
-      assert(("string" == type(p)), ("`exists` expected string got " .. type(p)))
-      local stat = vim.loop.fs_stat(p)
-      if stat then
-        return stat.type
-      else
-        return false
-      end
-    end
-    v_0_0 = exists_3f0
-    _0_0["exists?"] = v_0_0
-    v_0_ = v_0_0
-  end
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["exists?"] = v_0_
-  exists_3f = v_0_
+  package.loaded[_2amodule_name_2a] = {}
+  _2amodule_2a = package.loaded[_2amodule_name_2a]
 end
-local ensure = nil
+local _2amodule_locals_2a
 do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function ensure0(p)
-      assert(("string" == type(p)), ("`ensure` expected string got " .. type(p)))
-      if not exists_3f(p) then
-        if (nil == string.match(p, "%.%w+")) then
-          local handle = vim.loop.fs_open(p, "w", 438)
-          vim.loop.fs_close(handle)
-        else
-          vim.loop.fs_mkdir(p, 493)
-        end
-      end
-      return p
-    end
-    v_0_0 = ensure0
-    _0_0["ensure"] = v_0_0
-    v_0_ = v_0_0
-  end
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["ensure"] = v_0_
-  ensure = v_0_
+  _2amodule_2a["aniseed/locals"] = {}
+  _2amodule_locals_2a = (_2amodule_2a)["aniseed/locals"]
 end
-local cache_dir = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function cache_dir0()
-      return ensure(((os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")) .. "/conjure"))
-    end
-    v_0_0 = cache_dir0
-    _0_0["cache-dir"] = v_0_0
-    v_0_ = v_0_0
+local a, str = require("conjure.aniseed.core"), require("conjure.aniseed.string")
+do end (_2amodule_locals_2a)["a"] = a
+_2amodule_locals_2a["str"] = str
+local function exists_3f(p)
+  assert(("string" == type(p)), ("`exists` expected string got " .. type(p)))
+  local stat = vim.loop.fs_stat(p)
+  if stat then
+    return stat.type
+  else
+    return false
   end
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["cache-dir"] = v_0_
-  cache_dir = v_0_
 end
-local not_nil_3f = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function not_nil_3f0(v)
-      return (not a["nil?"](v) and ("userdata" ~= type(v)))
+_2amodule_2a["exists?"] = exists_3f
+local function ensure(p)
+  assert(("string" == type(p)), ("`ensure` expected string got " .. type(p)))
+  if not exists_3f(p) then
+    if (nil == string.match(p, "%.%w+")) then
+      local handle = vim.loop.fs_open(p, "w", 438)
+      vim.loop.fs_close(handle)
+    else
+      vim.loop.fs_mkdir(p, 493)
     end
-    v_0_0 = not_nil_3f0
-    _0_0["not-nil?"] = v_0_0
-    v_0_ = v_0_0
+  else
   end
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["not-nil?"] = v_0_
-  not_nil_3f = v_0_
+  return p
 end
-local supported = nil
-do
-  local v_0_ = nil
-  do
-    local v_0_0 = nil
-    local function supported0(ext)
-      local _2_0 = ext
-      if (_2_0 == "clj") then
-        return true
-      else
-        local _ = _2_0
-        return error(("lspdocs: " .. ext .. " is not supported"))
-      end
-    end
-    v_0_0 = supported0
-    _0_0["supported"] = v_0_0
-    v_0_ = v_0_0
+_2amodule_2a["ensure"] = ensure
+local function cache_dir()
+  return ensure(((os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")) .. "/conjure"))
+end
+_2amodule_2a["cache-dir"] = cache_dir
+local function not_nil_3f(v)
+  return (not a["nil?"](v) and ("userdata" ~= type(v)))
+end
+_2amodule_2a["not-nil?"] = not_nil_3f
+local function supported(ext)
+  local _4_ = ext
+  if (_4_ == "clj") then
+    return true
+  elseif true then
+    local _ = _4_
+    return error(("lspdocs: " .. ext .. " is not supported"))
+  else
+    return nil
   end
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["supported"] = v_0_
-  supported = v_0_
 end
-return nil
+_2amodule_2a["supported"] = supported
