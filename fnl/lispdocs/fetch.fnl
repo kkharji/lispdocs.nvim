@@ -5,11 +5,13 @@
 
 (defn- get-url [ext]
   (match ext
-    "clj" "https://clojuredocs.org/clojuredocs-export.json"))
+    "clj" "https://clojuredocs.org/clojuredocs-export.json"
+    "cljc" "https://clojuredocs.org/clojuredocs-export.json"))
 
 (defn- get-tmp-path [ext]
   (match ext
-    "clj" "/tmp/cljex.json"))
+    "clj"  "/tmp/cljex.json"
+    "cljc" "/tmp/cljex.json"))
 
 (defn- dl-msg [ext]
   (str.join " " ["lspdocs.nvim: Caching data for" ext

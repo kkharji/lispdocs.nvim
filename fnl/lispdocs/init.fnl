@@ -10,21 +10,24 @@
 (defn- get-ft [ext]
   (match ext
     "clj" "clojure"
+    "cljc" "clojure"
     _ (error (.. "lspdocs.nvim: " ext " is not supported"))))
 
-(defn- get-preview [ext tbl symbol]
-  (let [tbl (or (. db ext) {})]
-    (-?> (. (tbl:get {:keys ["preview"] :where {: symbol}}) 1)
-         (. :preview)
-         (vim.split "||00||"))))
+(defn- get-preview [tbl symbol]
+  (-?> {:keys ["preview"] :where {: symbol}}
+       (tbl:get)
+       (. 1)
+       (. :preview)
+       (vim.split "||00||")))
 
 (defn- resolve* [ext res cb]
-  (let [symbol (res:gsub "#'" "")
-        tbl (or (. db ext) {})
-        valid (and (util.supported ext) tbl.has_content)
-        preview #(get-preview ext tbl symbol)]
-    (if valid
-      (cb (preview))
+  (let [symbol  (res:gsub "#'" "")
+        tbl     (or (. db ext) {})]
+    ; (print (util.supported ext))
+    (print (not (tbl:empty)))
+    (if (and (util.supported ext)
+             (not (tbl:empty)))
+      (cb (get-preview tbl symbol))
       (tbl:seed #(cb (preview))))))
 
 (defn- resolve [ext symbol cb]
@@ -44,13 +47,15 @@
    opts.fill      :num:     Float window size.
    opts.border    :list:    Float window Border.
    opts.buf       :dict:    Buffer specfic options."
-  (resolve
-    (or opts.ext (vim.fn.expand "%:e"))
-    (or opts.symbol (vim.fn.expand "<cword>"))
-    #(display.open
-       (if (not (a.empty? $1))
-         (a.assoc opts :content $1)
-         (print (.. "lspdocs.nvim: " $2 " not found"))))))  ;; TODO: print log to conjure buffer
+  (let [ext     (or opts.ext (vim.fn.expand "%:e"))
+        symbol  (or opts.symbol (vim.fn.expand "<cword>"))
+        error   #(print (.. "lspdocs.nvim: '" symbol "' is not found"))
+        resolve #(resolve ext symbol $1)]
+    (resolve
+      #(display.open
+         (if (not (a.empty? $1))
+           (a.assoc opts :content $1)
+           (error))))))
 
 {: display-docs
  :float  #(display-docs (a.merge {:display :float} $1))

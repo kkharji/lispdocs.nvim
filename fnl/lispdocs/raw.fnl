@@ -54,6 +54,15 @@
            cb)
     "clj"))
 
+(defn- get-cljc [cb]
+  (fetch.data
+    #(-?>> (. $1 :vars)
+           (a.map compact-clj-item)
+           (a.map format-clj-entry)
+           cb)
+    "cljc"))
+
 (defn get [cb ext]
   (match ext
-   "clj" (get-clj cb)))
+   "clj"  (get-clj cb)
+   "cljc" (get-cljc cb)))

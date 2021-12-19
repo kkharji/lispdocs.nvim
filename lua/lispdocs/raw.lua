@@ -1,253 +1,199 @@
-local _0_0 = nil
-do
-  local name_0_ = "lispdocs.raw"
-  local module_0_ = nil
-  do
-    local x_0_ = package.loaded[name_0_]
-    if ("table" == type(x_0_)) then
-      module_0_ = x_0_
-    else
-      module_0_ = {}
-    end
-  end
-  module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
-  package.loaded[name_0_] = module_0_
-  _0_0 = module_0_
-end
-local function _1_(...)
-  local ok_3f_0_, val_0_ = nil, nil
-  local function _1_()
-    return {require("conjure.aniseed.core"), require("lispdocs.fetch"), require("lispdocs.parse"), require("conjure.aniseed.string"), require("lispdocs.util")}
-  end
-  ok_3f_0_, val_0_ = pcall(_1_)
-  if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", fetch = "lispdocs.fetch", parse = "lispdocs.parse", str = "conjure.aniseed.string", util = "lispdocs.util"}}
-    return val_0_
-  else
-    return print(val_0_)
-  end
-end
-local _local_0_ = _1_(...)
-local a = _local_0_[1]
-local fetch = _local_0_[2]
-local parse = _local_0_[3]
-local str = _local_0_[4]
-local util = _local_0_[5]
-local _2amodule_2a = _0_0
+local _2afile_2a = "fnl/lispdocs/raw.fnl"
 local _2amodule_name_2a = "lispdocs.raw"
-do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local fix_datatypes = nil
+local _2amodule_2a
 do
-  local v_0_ = nil
-  local function fix_datatypes0(v)
-    local list_string = nil
-    local function _2_(v0)
-      if ("table" == type(v0)) then
-        return str.join("||00||", v0)
-      else
-        return v0
-      end
-    end
-    list_string = _2_
-    local boolean_int = nil
-    local function _3_(v0)
-      if ("boolean" == type(v0)) then
-        if (v0 == true) then
-          return 1
-        else
-          return 0
-        end
-      else
-        return v0
-      end
-    end
-    boolean_int = _3_
-    local vimnil_nil = nil
-    local function _4_(v0)
-      if ("userdata" == type(v0)) then
-        return nil
-      else
-        return v0
-      end
-    end
-    vimnil_nil = _4_
-    return vimnil_nil(boolean_int(list_string(v)))
-  end
-  v_0_ = fix_datatypes0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["fix-datatypes"] = v_0_
-  fix_datatypes = v_0_
+  package.loaded[_2amodule_name_2a] = {}
+  _2amodule_2a = package.loaded[_2amodule_name_2a]
 end
-local see_also_item = nil
+local _2amodule_locals_2a
 do
-  local v_0_ = nil
-  local function see_also_item0(i)
-    if util["not-nil?"](i) then
-      local v = i["to-var"]
-      if util["not-nil?"](v) then
-        return (v.ns .. "/" .. v.name)
+  _2amodule_2a["aniseed/locals"] = {}
+  _2amodule_locals_2a = (_2amodule_2a)["aniseed/locals"]
+end
+local a, fetch, parse, str, util = require("conjure.aniseed.core"), require("lispdocs.fetch"), require("lispdocs.parse"), require("conjure.aniseed.string"), require("lispdocs.util")
+do end (_2amodule_locals_2a)["a"] = a
+_2amodule_locals_2a["fetch"] = fetch
+_2amodule_locals_2a["parse"] = parse
+_2amodule_locals_2a["str"] = str
+_2amodule_locals_2a["util"] = util
+local function fix_datatypes(v)
+  local list_string
+  local function _1_(v0)
+    if ("table" == type(v0)) then
+      return str.join("||00||", v0)
+    else
+      return v0
+    end
+  end
+  list_string = _1_
+  local boolean_int
+  local function _3_(v0)
+    if ("boolean" == type(v0)) then
+      if (v0 == true) then
+        return 1
       else
-        return ""
+        return 0
       end
+    else
+      return v0
+    end
+  end
+  boolean_int = _3_
+  local vimnil_nil
+  local function _6_(v0)
+    if ("userdata" == type(v0)) then
+      return nil
+    else
+      return v0
+    end
+  end
+  vimnil_nil = _6_
+  return vimnil_nil(boolean_int(list_string(v)))
+end
+_2amodule_locals_2a["fix-datatypes"] = fix_datatypes
+local function see_also_item(i)
+  if util["not-nil?"](i) then
+    local v = i["to-var"]
+    if util["not-nil?"](v) then
+      return (v.ns .. "/" .. v.name)
     else
       return ""
     end
+  else
+    return ""
   end
-  v_0_ = see_also_item0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["see-also-item"] = v_0_
-  see_also_item = v_0_
 end
-local see_alsos = nil
-do
-  local v_0_ = nil
-  local function see_alsos0(i)
-    local mapover = nil
-    local function _2_(_241)
-      if util["not-nil?"](_241) then
-        local _3_0 = _241
-        if _3_0 then
-          return a.map(see_also_item, _3_0)
-        else
-          return _3_0
-        end
-      end
-    end
-    mapover = _2_
-    return a.update(i, "see-alsos", mapover)
-  end
-  v_0_ = see_alsos0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["see-alsos"] = v_0_
-  see_alsos = v_0_
-end
-local get_body = nil
-do
-  local v_0_ = nil
-  local function get_body0(i)
-    if util["not-nil?"](i) then
-      local _2_0 = i
-      if _2_0 then
-        local function _3_(_241)
-          return (_241).body
-        end
-        return a.map(_3_, _2_0)
+_2amodule_locals_2a["see-also-item"] = see_also_item
+local function see_alsos(i)
+  local mapover
+  local function _10_(_241)
+    if util["not-nil?"](_241) then
+      local _11_ = _241
+      if (_11_ ~= nil) then
+        return a.map(see_also_item, _11_)
       else
-        return _2_0
+        return _11_
       end
+    else
+      return nil
     end
   end
-  v_0_ = get_body0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["get-body"] = v_0_
-  get_body = v_0_
+  mapover = _10_
+  return a.update(i, "see-alsos", mapover)
 end
-local compact_clj_item = nil
-do
-  local v_0_ = nil
-  local function compact_clj_item0(i)
-    local notes = nil
-    local function _2_(_241)
-      return a.update(_241, "notes", get_body)
-    end
-    notes = _2_
-    local examples = nil
-    local function _3_(_241)
-      return a.update(_241, "examples", get_body)
-    end
-    examples = _3_
-    local item = a.assoc(i, "symbol", (i.ns .. "/" .. i.name))
-    local _5_
-    do
-      local _4_0 = item
-      if _4_0 then
-        local _6_0 = see_alsos(_4_0)
-        if _6_0 then
-          local _8_0 = examples(_6_0)
-          if _8_0 then
-            _5_ = notes(_8_0)
-          else
-            _5_ = _8_0
-          end
-        else
-          _5_ = _6_0
-        end
-      else
-        _5_ = _4_0
+_2amodule_locals_2a["see-alsos"] = see_alsos
+local function get_body(i)
+  if util["not-nil?"](i) then
+    local _14_ = i
+    if (_14_ ~= nil) then
+      local function _15_(_241)
+        return (_241).body
       end
+      return a.map(_15_, _14_)
+    else
+      return _14_
     end
-    return a["select-keys"](_5_, {"arglists", "doc", "notes", "examples", "name", "ns", "see-alsos", "static", "type", "symbol"})
+  else
+    return nil
   end
-  v_0_ = compact_clj_item0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["compact-clj-item"] = v_0_
-  compact_clj_item = v_0_
 end
-local format_clj_entry = nil
-do
-  local v_0_ = nil
-  local function format_clj_entry0(item)
-    local markdown = {preview = parse["parse-for"]("clj", item)}
-    local res = {}
-    a["merge!"](item, markdown)
-    for k, v in pairs(item) do
-      res[k:gsub("-", "_")] = fix_datatypes(v)
-    end
-    return res
+_2amodule_locals_2a["get-body"] = get_body
+local function compact_clj_item(i)
+  local notes
+  local function _18_(_241)
+    return a.update(_241, "notes", get_body)
   end
-  v_0_ = format_clj_entry0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["format-clj-entry"] = v_0_
-  format_clj_entry = v_0_
-end
-local get_clj = nil
-do
-  local v_0_ = nil
-  local function get_clj0(cb)
-    local function _2_(_241)
-      local _3_0 = (_241).vars
-      if _3_0 then
-        local _4_0 = a.map(compact_clj_item, _3_0)
-        if _4_0 then
-          local _5_0 = a.map(format_clj_entry, _4_0)
-          if _5_0 then
-            return cb(_5_0)
-          else
-            return _5_0
-          end
-        else
-          return _4_0
-        end
-      else
-        return _3_0
-      end
-    end
-    return fetch.data(_2_, "clj")
+  notes = _18_
+  local examples
+  local function _19_(_241)
+    return a.update(_241, "examples", get_body)
   end
-  v_0_ = get_clj0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["get-clj"] = v_0_
-  get_clj = v_0_
-end
-local get = nil
-do
-  local v_0_ = nil
+  examples = _19_
+  local item = a.assoc(i, "symbol", (i.ns .. "/" .. i.name))
+  local _21_
   do
-    local v_0_0 = nil
-    local function get0(cb, ext)
-      local _2_0 = ext
-      if (_2_0 == "clj") then
-        return get_clj(cb)
+    local _20_ = item
+    if (_20_ ~= nil) then
+      local _22_ = see_alsos(_20_)
+      if (_22_ ~= nil) then
+        local _24_ = examples(_22_)
+        if (_24_ ~= nil) then
+          _21_ = notes(_24_)
+        else
+          _21_ = _24_
+        end
+      else
+        _21_ = _22_
       end
+    else
+      _21_ = _20_
     end
-    v_0_0 = get0
-    _0_0["get"] = v_0_0
-    v_0_ = v_0_0
   end
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["get"] = v_0_
-  get = v_0_
+  return a["select-keys"](_21_, {"arglists", "doc", "notes", "examples", "name", "ns", "see-alsos", "static", "type", "symbol"})
 end
-return nil
+_2amodule_locals_2a["compact-clj-item"] = compact_clj_item
+local function format_clj_entry(item)
+  local markdown = {preview = parse["parse-for"]("clj", item)}
+  local res = {}
+  a["merge!"](item, markdown)
+  for k, v in pairs(item) do
+    res[k:gsub("-", "_")] = fix_datatypes(v)
+  end
+  return res
+end
+_2amodule_locals_2a["format-clj-entry"] = format_clj_entry
+local function get_clj(cb)
+  local function _29_(_241)
+    local _30_ = (_241).vars
+    if (_30_ ~= nil) then
+      local _31_ = a.map(compact_clj_item, _30_)
+      if (_31_ ~= nil) then
+        local _32_ = a.map(format_clj_entry, _31_)
+        if (_32_ ~= nil) then
+          return cb(_32_)
+        else
+          return _32_
+        end
+      else
+        return _31_
+      end
+    else
+      return _30_
+    end
+  end
+  return fetch.data(_29_, "clj")
+end
+_2amodule_locals_2a["get-clj"] = get_clj
+local function get_cljc(cb)
+  local function _36_(_241)
+    local _37_ = (_241).vars
+    if (_37_ ~= nil) then
+      local _38_ = a.map(compact_clj_item, _37_)
+      if (_38_ ~= nil) then
+        local _39_ = a.map(format_clj_entry, _38_)
+        if (_39_ ~= nil) then
+          return cb(_39_)
+        else
+          return _39_
+        end
+      else
+        return _38_
+      end
+    else
+      return _37_
+    end
+  end
+  return fetch.data(_36_, "cljc")
+end
+_2amodule_locals_2a["get-cljc"] = get_cljc
+local function get(cb, ext)
+  local _43_ = ext
+  if (_43_ == "clj") then
+    return get_clj(cb)
+  elseif (_43_ == "cljc") then
+    return get_cljc(cb)
+  else
+    return nil
+  end
+end
+_2amodule_2a["get"] = get

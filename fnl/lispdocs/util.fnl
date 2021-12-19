@@ -36,4 +36,5 @@
 (defn supported [ext]
   (match ext ;; get filetype from extension.
     "clj" true
+    "cljc" true
     _ (error (.. "lspdocs: " ext " is not supported"))))
