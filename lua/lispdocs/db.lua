@@ -1,73 +1,39 @@
-local _0_0 = nil
-do
-  local name_0_ = "lispdocs.db"
-  local module_0_ = nil
-  do
-    local x_0_ = package.loaded[name_0_]
-    if ("table" == type(x_0_)) then
-      module_0_ = x_0_
-    else
-      module_0_ = {}
-    end
-  end
-  module_0_["aniseed/module"] = name_0_
-  module_0_["aniseed/locals"] = ((module_0_)["aniseed/locals"] or {})
-  module_0_["aniseed/local-fns"] = ((module_0_)["aniseed/local-fns"] or {})
-  package.loaded[name_0_] = module_0_
-  _0_0 = module_0_
-end
-local function _1_(...)
-  local ok_3f_0_, val_0_ = nil, nil
-  local function _1_()
-    return {require("conjure.aniseed.core"), require("lispdocs.raw"), require("sqlite"), require("conjure.aniseed.string"), require("lispdocs.util")}
-  end
-  ok_3f_0_, val_0_ = pcall(_1_)
-  if ok_3f_0_ then
-    _0_0["aniseed/local-fns"] = {require = {a = "conjure.aniseed.core", raw = "lispdocs.raw", sqlite = "sqlite", str = "conjure.aniseed.string", util = "lispdocs.util"}}
-    return val_0_
-  else
-    return print(val_0_)
-  end
-end
-local _local_0_ = _1_(...)
-local a = _local_0_[1]
-local raw = _local_0_[2]
-local sqlite = _local_0_[3]
-local str = _local_0_[4]
-local util = _local_0_[5]
-local _2amodule_2a = _0_0
+local _2afile_2a = "fnl/lispdocs/db.fnl"
 local _2amodule_name_2a = "lispdocs.db"
-do local _ = ({nil, _0_0, {{}, nil, nil, nil}})[2] end
-local db = nil
+local _2amodule_2a
 do
-  local v_0_ = nil
-  do
-    local schema = {arglists = "text", doc = "text", examples = "text", id = {"integer", "primary", "key"}, macro = "integer", name = "text", notes = "text", ns = "text", preview = "text", see_alsos = "text", static = "integer", symbol = "text", type = "text"}
-    local uri = (vim.fn.stdpath("data") .. "/lispdocs.db")
-    v_0_ = sqlite({clj = schema, cljc = schema, uri = uri})
-  end
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["db"] = v_0_
-  db = v_0_
+  package.loaded[_2amodule_name_2a] = {}
+  _2amodule_2a = package.loaded[_2amodule_name_2a]
 end
-local seed = nil
+local _2amodule_locals_2a
 do
-  local v_0_ = nil
-  local function seed0(type)
-    local function _2_(self, cb)
-      local function _3_(_241)
-        self:insert(_241)
-        return cb()
-      end
-      return raw.get(_3_, type)
+  _2amodule_2a["aniseed/locals"] = {}
+  _2amodule_locals_2a = (_2amodule_2a)["aniseed/locals"]
+end
+local a, raw, sqlite, str, util = require("conjure.aniseed.core"), require("lispdocs.raw"), require("sqlite"), require("conjure.aniseed.string"), require("lispdocs.util")
+do end (_2amodule_locals_2a)["a"] = a
+_2amodule_locals_2a["raw"] = raw
+_2amodule_locals_2a["sqlite"] = sqlite
+_2amodule_locals_2a["str"] = str
+_2amodule_locals_2a["util"] = util
+local db
+do
+  local schema = {id = {"integer", "primary", "key"}, ns = "text", name = "text", symbol = "text", arglists = "text", doc = "text", preview = "text", examples = "text", macro = "integer", static = "integer", see_alsos = "text", type = "text", notes = "text"}
+  local uri = (vim.fn.stdpath("data") .. "/lispdocs.db")
+  db = sqlite({uri = uri, clj = schema, cljc = schema})
+end
+_2amodule_locals_2a["db"] = db
+local function seed(type)
+  local function _1_(self, cb)
+    local function _2_(_241)
+      self:insert(_241)
+      return cb()
     end
-    return _2_
+    return raw.get(_2_, type)
   end
-  v_0_ = seed0
-  local t_0_ = (_0_0)["aniseed/locals"]
-  t_0_["seed"] = v_0_
-  seed = v_0_
+  return _1_
 end
+_2amodule_locals_2a["seed"] = seed
 db.clj["seed"] = seed("clj")
-db.cljc["seed"] = seed("cljc")
+do end (db.cljc)["seed"] = seed("cljc")
 return db

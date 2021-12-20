@@ -46,7 +46,9 @@
            (when (not= entry.symbol self.state.bufname)
              (vim.api.nvim_buf_set_lines self.state.bufnr 0 -1 false (vim.split entry.preview "||00||"))
              (vim.api.nvim_win_set_option self.state.preview_win "wrap" true)
-             (putils.highlighter self.state.bufnr "markdown")))})) {}))
+             (putils.highlighter
+               self.state.bufnr
+               (or (util.get-preview-ft opts.ext) "markdown"))))})) {}))
 
 (defn- set-mappings [bufnr]
   (actions_set.select:replace
@@ -71,12 +73,11 @@
                :attach_mappings set-mappings})
   (: (pickers.new opts config) :find))
 
-;; TODO: change to the current file extension
 (defn- find [opts]
-  (let [opts (or opts {})
-        ext (or opts.ext "clj")]
-    (tset opts :tbl (or (. db ext) {}))
-    (if (and (util.supported ext) (opts.tbl:empty))
+  (let [opts (or opts {})]
+    (tset opts :ext (vim.fn.expand "%:e"))
+    (tset opts :tbl (or (. db opts.ext) {}))
+    (if (and (util.supported opts.ext) (opts.tbl:empty))
       (opts.tbl:seed (vim.schedule_wrap #(picker opts)))
       (picker opts))))
 

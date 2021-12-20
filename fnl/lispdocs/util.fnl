@@ -38,3 +38,23 @@
     "clj" true
     "cljc" true
     _ (error (.. "lspdocs: " ext " is not supported"))))
+
+(defn get-ft [ext]
+  (match ext
+    "clj" "clojure"
+    "cljc" "clojure"
+    _ (error (.. "lspdocs.nvim: " (or ext "unknown!") " is not supported"))))
+
+(defn get-preview-ft [ext]
+  (. vim.g (.. "lispdocs_" (or (get-ft ext) "") "_preview_ft")))
+
+(defn get-docs-download-url [ext]
+  (match ext
+    "clj" "https://clojuredocs.org/clojuredocs-export.json"
+    "cljc" "https://clojuredocs.org/clojuredocs-export.json"))
+
+(defn get-docs-tmp-path [ext]
+  (match ext
+    "clj"  "/tmp/cljex.json"
+    "cljc" "/tmp/cljex.json"))
+

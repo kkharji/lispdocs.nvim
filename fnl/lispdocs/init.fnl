@@ -1,17 +1,12 @@
 (module lispdocs
-  {require {a conjure.aniseed.core
-            client conjure.client
-            eval conjure.eval
-            db lispdocs.db
-            util lispdocs.util
+  {require {a       conjure.aniseed.core
+            client  conjure.client
+            eval    conjure.eval
+            db      lispdocs.db
+            util    lispdocs.util
             display lispdocs.display
-            finder lispdocs.finder}})
-
-(defn- get-ft [ext]
-  (match ext
-    "clj" "clojure"
-    "cljc" "clojure"
-    _ (error (.. "lspdocs.nvim: " ext " is not supported"))))
+            notify  lispdocs.notify
+            finder  lispdocs.finder}})
 
 (defn- get-preview [tbl symbol]
   (-?> {:keys ["preview"] :where {: symbol}}
@@ -23,16 +18,13 @@
 (defn- resolve* [ext res cb]
   (let [symbol  (res:gsub "#'" "")
         tbl     (or (. db ext) {})]
-    ; (print (util.supported ext))
-    (print (not (tbl:empty)))
     (if (and (util.supported ext)
              (not (tbl:empty)))
       (cb (get-preview tbl symbol))
       (tbl:seed #(cb (preview))))))
 
-(defn- resolve [ext symbol cb]
-  (let [origin (get-ft ext)
-        code (string.format "(resolve '%s)" symbol)
+(defn- resolve [origin ext symbol cb]
+  (let [code (string.format "(resolve '%s)" symbol)
         on-result #(resolve* ext $1 cb)
         passive? true
         args {: origin : code  : passive?  : on-result}]
@@ -49,13 +41,17 @@
    opts.buf       :dict:    Buffer specfic options."
   (let [ext     (or opts.ext (vim.fn.expand "%:e"))
         symbol  (or opts.symbol (vim.fn.expand "<cword>"))
-        error   #(print (.. "lspdocs.nvim: '" symbol "' is not found"))
-        resolve #(resolve ext symbol $1)]
+        filetype (util.get-ft ext)
+        resolve #(resolve filetype ext symbol $1)]
     (resolve
       #(display.open
          (if (not (a.empty? $1))
-           (a.assoc opts :content $1)
-           (error))))))
+           (-> opts
+               (a.assoc :content $1)
+               (a.assoc-in [:buf :filetype]
+                           (or (a.get-in opts [:buf :filetype])
+                               (util.get-preview-ft ext))))
+           (notify.symbol-not-found symbol))))))
 
 {: display-docs
  :float  #(display-docs (a.merge {:display :float} $1))
