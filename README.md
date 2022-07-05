@@ -11,8 +11,8 @@ Note: This plugin will only work on neovim 0.5.
 
 ```vim
 Plug 'olical/conjure'
-Plug 'tami5/sqlite.lua'
-Plug 'tami5/lispdocs.nvim' " its a filetype plugin so no need to do any extra work.
+Plug 'kkharji/sqlite.lua'
+Plug 'kkharji/lispdocs.nvim' " its a filetype plugin so no need to do any extra work.
 ```
 
 Mappings:
